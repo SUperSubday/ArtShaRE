@@ -1,0 +1,2540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Social App</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Custom Tailwind Configuration */
+        :root {
+            --primary-color: #4F46E5; /* Indigo 600 - slightly darker for better contrast */
+            --secondary-color: #6366F1; /* Indigo 500 */
+            --accent-color: #EC4899; /* Pink 500 */
+
+            /* Light Mode Colors */
+            --text-color-light-mode: #1F2937; /* Gray 800 - for main text in light mode */
+            --bg-color-light-mode: #F9FAFB; /* Gray 50 - for main background in light mode */
+            --card-bg-light-mode: #FFFFFF; /* White - for cards in light mode */
+            --border-color-light-mode: #D1D5DB; /* Gray 300 - for borders in light mode */
+            --placeholder-color-light-mode: #374151; /* Gray 700 - for prompt text in light mode (effectively black) */
+
+            /* Dark Mode Colors - Enhanced Visibility */
+            --text-color-dark-mode: #F3F4F6; /* Gray 100 - for main text in dark mode */
+            --bg-color-dark-mode: #121212; /* Very dark background for a stark theme */
+            --card-bg-dark-mode: #1E1E1E; /* Slightly lighter than main background for cards */
+            --input-bg-dark-mode: #2C2C2C; /* Darker input background for better contrast */
+            --border-color-dark-mode: #4A4A4A; /* Darker border for contrast */
+            --placeholder-color-dark-mode: #B0B0B0; /* Lighter placeholder for visibility */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color-light-mode);
+            color: var(--text-color-light-mode);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .dark-mode body {
+            background-color: var(--bg-color-dark-mode);
+            color: var(--text-color-dark-mode);
+        }
+
+        .dark-mode .card {
+            background-color: var(--card-bg-dark-mode);
+            color: var(--text-color-dark-mode);
+        }
+
+        .dark-mode .input-field,
+        .dark-mode .textarea-field {
+            background-color: var(--input-bg-dark-mode);
+            color: var(--text-color-dark-mode);
+            border-color: var(--border-color-dark-mode);
+        }
+
+        .dark-mode .modal-content {
+            background-color: var(--bg-color-dark-mode);
+        }
+
+        .dark-mode .border-gray-200 { /* This class is used in HTML for borders */
+            border-color: var(--border-color-dark-mode);
+        }
+
+        .dark-mode .text-gray-500 { /* Used for secondary text like handles, dates */
+            color: var(--placeholder-color-dark-mode);
+        }
+
+        .dark-mode .hover\\:bg-gray-100:hover { /* Used for hover states on light backgrounds */
+            background-color: var(--input-bg-dark-mode);
+        }
+
+        .dark-mode .text-gray-700 { /* Used for general text that needs to be visible */
+            color: var(--text-color-dark-mode);
+        }
+
+        /* Placeholder styles */
+        .input-field::placeholder,
+        .textarea-field::placeholder {
+            color: var(--placeholder-color-light-mode);
+        }
+        .dark-mode .input-field::placeholder,
+        .dark-mode .textarea-field::placeholder {
+            color: var(--placeholder-color-dark-mode);
+        }
+
+
+        /* Adjust specific elements for dark mode visibility */
+        .dark-mode .rich-text-editor {
+            background-color: var(--input-bg-dark-mode);
+            border-color: var(--border-color-dark-mode);
+            color: var(--text-color-dark-mode);
+        }
+        .dark-mode .rich-text-toolbar button {
+            background-color: #4A5568; /* Darker button for toolbar */
+            color: var(--text-color-dark-mode); /* Ensure text is visible on button */
+        }
+        .dark-mode .rich-text-toolbar button:hover {
+            background-color: #6B7280;
+        }
+        .dark-mode .empty-state {
+            background-color: var(--input-bg-dark-mode);
+            color: var(--placeholder-color-dark-mode);
+        }
+        .dark-mode .post-options-menu {
+            background-color: var(--card-bg-dark-mode);
+            border-color: var(--border-color-dark-mode);
+        }
+        .dark-mode .post-options-menu a {
+            color: var(--text-color-dark-mode);
+        }
+        .dark-mode .post-options-menu a:hover {
+            background-color: var(--input-bg-dark-mode);
+        }
+        .dark-mode #notificationsList li:hover {
+            background-color: var(--input-bg-dark-mode);
+        }
+        .dark-mode #followingList li:hover {
+            background-color: var(--input-bg-dark-mode);
+        }
+        .dark-mode .mobile-nav {
+            border-top-color: var(--border-color-dark-mode);
+        }
+        .dark-mode .mobile-nav a {
+            color: var(--text-color-dark-mode);
+        }
+        .dark-mode .mobile-nav a:hover {
+            color: var(--primary-color);
+        }
+
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px -1px rgba(0, 0, 0, 0.15), 0 3px 6px -1px rgba(0, 0, 0, 0.08);
+        }
+        .btn-primary:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+        .btn-secondary:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.1);
+        }
+        .btn-secondary:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        .input-field, .textarea-field {
+            border: 1px solid var(--border-color-light-mode);
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            width: 100%;
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            color: var(--text-color-light-mode); /* Explicitly set for light mode */
+        }
+        .input-field:focus, .textarea-field:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3); /* Slightly stronger focus shadow */
+        }
+
+        /* Rich Text Editor Styling */
+        .rich-text-editor {
+            border: 1px solid var(--border-color-light-mode);
+            border-radius: 0.5rem;
+            min-height: 150px;
+            padding: 0.75rem 1rem;
+            outline: none;
+            overflow-y: auto;
+            background-color: var(--card-bg-light-mode);
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.05); /* Inner shadow for depth */
+            color: var(--text-color-light-mode); /* Explicitly set for light mode */
+        }
+        .rich-text-toolbar button {
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.375rem;
+            background-color: #E5E7EB; /* Gray 200 */
+            color: var(--text-color-dark-mode); /* Ensure text is visible on button */
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .rich-text-toolbar button:hover {
+            background-color: #D1D5DB; /* Gray 300 */
+        }
+
+        /* Responsive adjustments */
+        @media (min-width: 768px) {
+            .main-layout {
+                grid-template-columns: 1fr 3fr 1fr; /* Sidebar, Main, Right Sidebar */
+                transition: grid-template-columns 0.3s ease-in-out; /* Smooth layout transition */
+            }
+        }
+        @media (max-width: 767px) {
+            .main-layout {
+                grid-template-columns: 1fr; /* Single column for mobile */
+            }
+            .sidebar {
+                display: none; /* Hide sidebars by default on mobile */
+            }
+            .mobile-nav {
+                display: flex; /* Show mobile nav */
+                border-top: 1px solid var(--border-color-light-mode); /* Subtle border for mobile nav */
+            }
+            body {
+                padding-bottom: 60px; /* Space for fixed mobile nav */
+            }
+        }
+
+        /* Card styles */
+        .card {
+            background-color: var(--card-bg-light-mode);
+            padding: 1.5rem; /* Increased padding */
+            border-radius: 0.75rem; /* Consistent rounded corners */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Stronger shadow */
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-3px); /* Subtle lift on hover */
+            box-shadow: 0 15px 20px -5px rgba(0, 0, 0, 0.15), 0 6px 10px -3px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.6); /* Darker overlay */
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        .modal-content {
+            background-color: var(--bg-color-light-mode);
+            margin: auto;
+            padding: 2.5rem; /* Increased padding */
+            border-radius: 0.75rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1); /* Stronger modal shadow */
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            transform: translateY(-30px); /* More pronounced initial transform */
+            transition: transform 0.3s ease-in-out;
+        }
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+        .close-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6B7280; /* Gray 500 */
+            transition: color 0.2s;
+        }
+        .close-button:hover {
+            color: #1F2937; /* Gray 800 */
+        }
+
+        /* Message Box */
+        .message-box {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--card-bg-light-mode);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            z-index: 1001;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .message-box.show {
+            display: block;
+            opacity: 1;
+        }
+        .message-box .message-content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .message-box .message-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+
+        /* Loading Spinner */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: var(--primary-color);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1002;
+            transition: opacity 0.3s ease-in-out;
+            opacity: 0;
+            pointer-events: none; /* Allow clicks through when hidden */
+        }
+        .loading-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Empty state styling */
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #6B7280; /* Gray 500 */
+            background-color: #F3F4F6; /* Gray 100 */
+            border-radius: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        /* Password strength indicator */
+        .password-strength {
+            height: 8px;
+            border-radius: 4px;
+            width: 100%;
+            background-color: #E5E7EB; /* Gray 200 */
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        .password-strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease-in-out, background-color 0.3s ease-in-out;
+        }
+        .strength-weak { background-color: #EF4444; /* Red 500 */ }
+        .strength-medium { background-color: #F59E0B; /* Amber 500 */ }
+        .strength-strong { background-color: #22C55E; /* Green 500 */ }
+
+        /* Post options menu */
+        .post-options-menu {
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-color-light-mode);
+        }
+        .post-options-menu a {
+            transition: background-color 0.1s ease-in-out;
+        }
+
+        /* Notification list item hover */
+        #notificationsList li:hover {
+            transform: translateX(3px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        #notificationsList li {
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+        }
+
+        /* Following list item hover */
+        #followingList li {
+            transition: background-color 0.2s ease-in-out;
+        }
+        #followingList li:hover {
+            background-color: #F3F4F6; /* Gray 100 */
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Header -->
+    <header class="bg-white shadow-sm py-4 px-6 sticky top-0 z-50 dark:bg-gray-800 dark:text-gray-100">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">My Social App</h1>
+            <nav class="hidden md:flex space-x-6">
+                <a href="#" class="text-gray-700 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 nav-link" data-section="feedSection">Feed</a>
+                <a href="#" class="text-gray-700 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 nav-link" data-section="profileSection" id="profileNavLink">Profile</a>
+                <a href="#" class="text-gray-700 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 nav-link" data-section="createPostSection" id="createPostNavLink">Create Post</a>
+                <a href="#" class="text-gray-700 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 nav-link" data-section="notificationsSection" id="notificationsNavLink">Notifications</a>
+                <a href="#" class="text-gray-700 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 nav-link" data-section="searchSection" id="searchNavLink">Search</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <button id="themeToggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                    <i class="fas fa-moon text-gray-700 dark:text-gray-300"></i>
+                </button>
+                <button id="loginButton" class="btn-primary hidden">Login</button>
+                <button id="logoutButton" class="btn-secondary hidden">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation (hidden on desktop) -->
+    <nav class="mobile-nav fixed bottom-0 left-0 w-full bg-white shadow-lg py-3 px-4 flex justify-around items-center md:hidden z-50 dark:bg-gray-800">
+        <a href="#" class="flex flex-col items-center text-gray-700 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 nav-link" data-section="feedSection">
+            <i class="fas fa-home text-xl"></i>
+            <span class="text-xs">Feed</span>
+        </a>
+        <a href="#" class="flex flex-col items-center text-gray-700 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 nav-link" data-section="profileSection" id="profileNavLinkMobile">
+            <i class="fas fa-user text-xl"></i>
+            <span class="text-xs">Profile</span>
+        </a>
+        <a href="#" class="flex flex-col items-center text-gray-700 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 nav-link" data-section="createPostSection" id="createPostNavLinkMobile">
+            <i class="fas fa-plus-square text-xl"></i>
+            <span class="text-xs">Post</span>
+        </a>
+        <a href="#" class="flex flex-col items-center text-gray-700 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 nav-link" data-section="notificationsSection" id="notificationsNavLinkMobile">
+            <i class="fas fa-bell text-xl"></i>
+            <span class="text-xs">Notify</span>
+        </a>
+        <a href="#" class="flex flex-col items-center text-gray-700 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 nav-link" data-section="searchSection" id="searchNavLinkMobile">
+            <i class="fas fa-search text-xl"></i>
+            <span class="text-xs">Search</span>
+        </a>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="container mx-auto p-4 md:p-6 grid grid-cols-1 md:grid-cols-3 gap-6 main-layout mt-4 md:mt-8">
+
+        <!-- Left Sidebar (User Profile/Friends - hidden on mobile) -->
+        <aside class="sidebar hidden md:block bg-white p-6 rounded-lg shadow-md dark:bg-gray-800 dark:text-gray-100">
+            <div id="profileSummary" class="text-center">
+                <img id="sidebarProfilePic" src="https://placehold.co/100x100/A78BFA/ffffff?text=User" alt="Profile Picture" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-4 border-indigo-300 dark:border-indigo-600">
+                <h3 id="sidebarUsername" class="text-xl font-semibold">John Doe</h3>
+                <p id="sidebarHandle" class="text-gray-500 dark:text-gray-400">@johndoe</p>
+                <p id="sidebarBio" class="mt-2 text-sm">"Sharing my stories and thoughts with the world."</p>
+                <div class="flex justify-around mt-4 text-sm">
+                    <div><span id="sidebarPostCount" class="font-bold">0</span> Posts</div>
+                    <div><span id="sidebarFollowerCount" class="font-bold">0</span> Followers</div>
+                    <div><span id="sidebarFollowingCount" class="font-bold">0</span> Following</div>
+                </div>
+                <button class="btn-primary w-full mt-4" onclick="window.showSection(profileSection)">Edit Profile</button>
+            </div>
+
+            <div class="mt-8">
+                <h4 class="text-lg font-semibold mb-4">Friends / Following</h4>
+                <ul id="followingList" class="space-y-3">
+                    <!-- Following list will be rendered here by JS -->
+                    <li class="empty-state text-sm">No one followed yet.</li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content (Feed, Create Post, Profile, Notifications, Search) -->
+        <section class="md:col-span-2 space-y-6">
+
+            <!-- Create New Post Section -->
+            <div id="createPostSection" class="card bg-white p-6 rounded-lg shadow-md hidden dark:bg-gray-800 dark:text-gray-100">
+                <h2 class="text-2xl font-bold mb-6 text-indigo-600 dark:text-indigo-400">Create New Post</h2>
+                <div class="mb-4">
+                    <label for="postTitle" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Title</label>
+                    <input type="text" id="postTitle" class="input-field placeholder-gray-400 dark:placeholder-gray-500" placeholder="Enter post title (e.g., My Latest Short Story)">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Content</label>
+                    <div class="rich-text-toolbar flex space-x-2 mb-2">
+                        <button type="button" onclick="document.execCommand('bold', false, null)"><i class="fas fa-bold"></i></button>
+                        <button type="button" onclick="document.execCommand('italic', false, null)"><i class="fas fa-italic"></i></button>
+                        <button type="button" onclick="document.execCommand('underline', false, null)"><i class="fas fa-underline"></i></button>
+                        <button type="button" onclick="document.execCommand('insertOrderedList', false, null)"><i class="fas fa-list-ol"></i></button>
+                        <button type="button" onclick="document.execCommand('insertUnorderedList', false, null)"><i class="fas fa-list-ul"></i></button>
+                    </div>
+                    <div id="postContentEditor" class="rich-text-editor" contenteditable="true" placeholder="Write your story, poem, or ghazal here..."></div>
+                </div>
+                <div class="mb-4">
+                    <label for="postType" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Post Type</label>
+                    <select id="postType" class="input-field">
+                        <option value="story">Short Story</option>
+                        <option value="poem">Poem</option>
+                        <option value="ghazal">Ghazal</option>
+                    </select>
+                </div>
+                <div class="mb-6">
+                    <label for="postVisibility" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Visibility</label>
+                    <select id="postVisibility" class="input-field">
+                        <option value="public">Public</option>
+                        <option value="private">Private</option>
+                    </select>
+                </div>
+                <button id="submitPostButton" class="btn-primary w-full">Publish Post</button>
+            </div>
+
+            <!-- Profile Section -->
+            <div id="profileSection" class="card bg-white p-6 rounded-lg shadow-md hidden dark:bg-gray-800 dark:text-gray-100">
+                <h2 class="text-2xl font-bold mb-6 text-indigo-600 dark:text-indigo-400">My Profile</h2>
+                <div class="flex flex-col items-center mb-6">
+                    <div class="relative w-32 h-32 rounded-full overflow-hidden mb-4 border-4 border-indigo-400 dark:border-indigo-600">
+                        <img id="profilePicturePreview" src="https://placehold.co/128x128/A78BFA/ffffff?text=User" alt="Profile Picture" class="w-full h-full object-cover">
+                        <label for="profilePictureUpload" class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white cursor-pointer opacity-0 hover:opacity-100 transition-opacity rounded-full">
+                            <i class="fas fa-camera text-2xl"></i>
+                        </label>
+                        <input type="file" id="profilePictureUpload" accept="image/*" class="hidden">
+                    </div>
+                    <h3 id="profileUsername" class="text-xl font-semibold">John Doe</h3>
+                    <p id="profileHandle" class="text-gray-500 dark:text-gray-400">@johndoe</p>
+                </div>
+
+                <div class="mb-4">
+                    <label for="profileBio" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Bio</label>
+                    <textarea id="profileBio" class="textarea-field" rows="4" placeholder="Tell us about yourself..."></textarea>
+                </div>
+                <div class="mb-4">
+                    <label for="profileEmail" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Email</label>
+                    <input type="email" id="profileEmail" class="input-field" value="" readonly>
+                </div>
+                <div class="mb-6">
+                    <label for="profileLocation" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Location</label>
+                    <input type="text" id="profileLocation" class="input-field" value="">
+                </div>
+                <button id="saveProfileButton" class="btn-primary w-full">Save Profile</button>
+                <button id="changePasswordButton" class="btn-secondary w-full mt-4">Change Password</button>
+            </div>
+
+            <!-- Notifications Section -->
+            <div id="notificationsSection" class="card bg-white p-6 rounded-lg shadow-md hidden dark:bg-gray-800 dark:text-gray-100">
+                <h2 class="text-2xl font-bold mb-6 text-indigo-600 dark:text-indigo-400">Notifications</h2>
+                <div class="flex justify-end space-x-2 mb-4">
+                    <button id="markAllReadButton" class="btn-secondary px-4 py-2 text-sm">Mark All Read</button>
+                    <button id="clearAllNotificationsButton" class="btn-secondary px-4 py-2 text-sm">Clear All</button>
+                </div>
+                <ul id="notificationsList" class="space-y-4">
+                    <!-- Notifications will be rendered here by JS -->
+                    <li class="empty-state text-sm">No new notifications.</li>
+                </ul>
+            </div>
+
+            <!-- Search Section -->
+            <div id="searchSection" class="card bg-white p-6 rounded-lg shadow-md hidden dark:bg-gray-800 dark:text-gray-100">
+                <h2 class="text-2xl font-bold mb-6 text-indigo-600 dark:text-indigo-400">Search</h2>
+                <div class="mb-4">
+                    <label for="searchKeyword" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Keyword</label>
+                    <input type="text" id="searchKeyword" class="input-field placeholder-gray-400 dark:placeholder-gray-500" placeholder="Search for posts or users...">
+                </div>
+                <div class="mb-4">
+                    <label for="searchFilterType" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Filter by Type</label>
+                    <select id="searchFilterType" class="input-field">
+                        <option value="all">All</option>
+                        <option value="story">Short Story</option>
+                        <option value="poem">Poem</option>
+                        <option value="ghazal">Ghazal</option>
+                        <option value="user">User</option>
+                    </select>
+                </div>
+                <button id="performSearchButton" class="btn-primary w-full">Search</button>
+
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-4">Search Results:</h3>
+                    <div id="searchResults" class="space-y-4">
+                        <p class="empty-state text-sm">Enter a keyword and click search to see results.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feed / Timeline Section -->
+            <div id="feedSection" class="space-y-6">
+                <!-- Posts will be rendered here by JS -->
+                <p class="empty-state text-sm">No posts yet. Be the first to create one!</p>
+            </div>
+        </section>
+
+        <!-- Right Sidebar (Search/Trends - hidden on mobile) -->
+        <aside class="sidebar hidden md:block bg-white p-6 rounded-lg shadow-md dark:bg-gray-800 dark:text-gray-100">
+            <div class="mb-8">
+                <h4 class="text-lg font-semibold mb-4">Search Posts</h4>
+                <div class="relative">
+                    <input type="text" id="sidebarSearchInput" placeholder="Search..." class="input-field pr-10 placeholder-gray-400 dark:placeholder-gray-500">
+                    <button id="sidebarSearchButton" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="text-lg font-semibold mb-4">Categories / Tags</h4>
+                <div class="flex flex-wrap gap-2">
+                    <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-200">#ShortStories</span>
+                    <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-200">#Poetry</span>
+                    <span class="bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-purple-900 dark:text-purple-200">#Ghazals</span>
+                    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-200">#Fiction</span>
+                    <span class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-200">#Inspiration</span>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Login/Registration Modal -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="window.closeModal('authModal')">&times;</span>
+            <h2 id="authModalTitle" class="text-2xl font-bold mb-6 text-indigo-600 dark:text-indigo-400">Login</h2>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label for="loginEmail" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Email</label>
+                    <input type="email" id="loginEmail" class="input-field" placeholder="your@example.com" required>
+                </div>
+                <div class="relative">
+                    <label for="loginPassword" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Password</label>
+                    <input type="password" id="loginPassword" class="input-field pr-10" placeholder="********" required>
+                    <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 mt-2 text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400" onclick="togglePasswordVisibility('loginPassword')">
+                        <i class="fas fa-eye" id="toggleLoginPassword"></i>
+                    </button>
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" id="rememberMe" class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="rememberMe" class="ml-2 block text-sm text-gray-900 dark:text-gray-300">Remember me</label>
+                </div>
+                <button type="submit" class="btn-primary w-full">Login</button>
+                <p class="text-center text-sm text-gray-500 dark:text-gray-400">
+                    Don't have an account? <a href="#" id="showRegister" class="text-indigo-600 hover:underline dark:text-indigo-400">Register</a>
+                </p>
+                <p class="text-center text-sm text-gray-500 dark:text-gray-400">
+                    <a href="#" id="forgotPassword" class="text-indigo-600 hover:underline dark:text-indigo-400">Forgot Password?</a>
+                </p>
+            </form>
+
+            <!-- Registration Form -->
+            <form id="registerForm" class="space-y-4 hidden">
+                <div>
+                    <label for="registerUsername" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Username</label>
+                    <input type="text" id="registerUsername" class="input-field" placeholder="Choose a username" required>
+                </div>
+                <div>
+                    <label for="registerEmail" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Email</label>
+                    <input type="email" id="registerEmail" class="input-field" placeholder="your@example.com" required>
+                </div>
+                <div class="relative">
+                    <label for="registerPassword" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Password</label>
+                    <input type="password" id="registerPassword" class="input-field pr-10" placeholder="********" required>
+                    <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 mt-2 text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400" onclick="togglePasswordVisibility('registerPassword')">
+                        <i class="fas fa-eye" id="toggleRegisterPassword"></i>
+                    </button>
+                    <div class="password-strength">
+                        <div id="passwordStrengthBar" class="password-strength-bar"></div>
+                    </div>
+                    <p id="passwordStrengthText" class="text-xs mt-1 text-gray-500 dark:text-gray-400">Password strength: N/A</p>
+                </div>
+                <div class="relative">
+                    <label for="registerConfirmPassword" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Confirm Password</label>
+                    <input type="password" id="registerConfirmPassword" class="input-field pr-10" placeholder="********" required>
+                    <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 mt-2 text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400" onclick="togglePasswordVisibility('registerConfirmPassword')">
+                        <i class="fas fa-eye" id="toggleRegisterConfirmPassword"></i>
+                    </button>
+                </div>
+                <button type="button" id="suggestPasswordButton" class="btn-secondary w-full">Suggest Strong Password</button>
+                <button type="submit" class="btn-primary w-full">Register</button>
+                <p class="text-center text-sm text-gray-500 dark:text-gray-400">
+                    Already have an account? <a href="#" id="showLogin" class="text-indigo-600 hover:underline dark:text-indigo-400">Login</a>
+                </p>
+            </form>
+
+            <!-- Password Reset Form -->
+            <form id="passwordResetForm" class="space-y-4 hidden">
+                <div>
+                    <label for="resetEmail" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Email</label>
+                    <input type="email" id="resetEmail" class="input-field" placeholder="your@example.com" required>
+                </div>
+                <button type="submit" class="btn-primary w-full">Send Reset Link</button>
+                <p class="text-center text-sm text-gray-500 dark:text-gray-400">
+                    Remembered your password? <a href="#" id="showLoginFromReset" class="text-indigo-600 hover:underline dark:text-indigo-400">Login</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Confirm Action Modal -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content max-w-sm">
+            <span class="close-button" onclick="window.closeModal('confirmModal')">&times;</span>
+            <h3 class="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Confirm Action</h3>
+            <p id="confirmModalText" class="mb-6 text-gray-700 dark:text-gray-300">Are you sure you want to proceed?</p>
+            <div class="flex justify-around space-x-4">
+                <button id="confirmModalCancel" class="btn-secondary flex-1">Cancel</button>
+                <button id="confirmModalConfirm" class="btn-primary flex-1">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Post Modal -->
+    <div id="editPostModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="window.closeModal('editPostModal')">&times;</span>
+            <h2 class="text-2xl font-bold mb-6 text-indigo-600 dark:text-indigo-400">Edit Post</h2>
+            <input type="hidden" id="editPostId">
+            <div class="mb-4">
+                <label for="editPostTitle" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Title</label>
+                <input type="text" id="editPostTitle" class="input-field" placeholder="Edit post title">
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Content</label>
+                <div class="rich-text-toolbar flex space-x-2 mb-2">
+                    <button type="button" onclick="document.execCommand('bold', false, null)"><i class="fas fa-bold"></i></button>
+                    <button type="button" onclick="document.execCommand('italic', false, null)"><i class="fas fa-italic"></i></button>
+                    <button type="button" onclick="document.execCommand('underline', false, null)"><i class="fas fa-underline"></i></button>
+                    <button type="button" onclick="document.execCommand('insertOrderedList', false, null)"><i class="fas fa-list-ol"></i></button>
+                    <button type="button" onclick="document.execCommand('insertUnorderedList', false, null)"><i class="fas fa-list-ul"></i></button>
+                </div>
+                <div id="editPostContentEditor" class="rich-text-editor" contenteditable="true" placeholder="Edit your post content..."></div>
+            </div>
+            <div class="mb-4">
+                <label for="editPostType" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Post Type</label>
+                <select id="editPostType" class="input-field">
+                    <option value="story">Short Story</option>
+                    <option value="poem">Poem</option>
+                    <option value="ghazal">Ghazal</option>
+                </select>
+            </div>
+            <div class="mb-6">
+                <label for="editPostVisibility" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Visibility</label>
+                <select id="editPostVisibility" class="input-field">
+                    <option value="public">Public</option>
+                    <option value="private">Private</option>
+                </select>
+            </div>
+            <button id="saveEditedPostButton" class="btn-primary w-full">Save Changes</button>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div id="changePasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="window.closeModal('changePasswordModal')">&times;</span>
+            <h2 class="text-2xl font-bold mb-6 text-indigo-600 dark:text-indigo-400">Change Password</h2>
+            <form id="changePasswordForm" class="space-y-4">
+                <div class="relative">
+                    <label for="currentPassword" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Current Password</label>
+                    <input type="password" id="currentPassword" class="input-field pr-10" placeholder="********" required>
+                    <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 mt-2 text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400" onclick="togglePasswordVisibility('currentPassword')">
+                        <i class="fas fa-eye" id="toggleCurrentPassword"></i>
+                    </button>
+                </div>
+                <div class="relative">
+                    <label for="newPassword" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">New Password</label>
+                    <input type="password" id="newPassword" class="input-field pr-10" placeholder="********" required>
+                    <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 mt-2 text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400" onclick="togglePasswordVisibility('newPassword')">
+                        <i class="fas fa-eye" id="toggleNewPassword"></i>
+                    </button>
+                    <div class="password-strength">
+                        <div id="newPasswordStrengthBar" class="password-strength-bar"></div>
+                    </div>
+                    <p id="newPasswordStrengthText" class="text-xs mt-1 text-gray-500 dark:text-gray-400">Password strength: N/A</p>
+                </div>
+                <div class="relative">
+                    <label for="confirmNewPassword" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Confirm New Password</label>
+                    <input type="password" id="confirmNewPassword" class="input-field pr-10" placeholder="********" required>
+                    <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 mt-2 text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400" onclick="togglePasswordVisibility('confirmNewPassword')">
+                        <i class="fas fa-eye" id="toggleConfirmNewPassword"></i>
+                    </button>
+                </div>
+                <button type="submit" class="btn-primary w-full">Update Password</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Message Box (for alerts/confirmations) -->
+    <div id="messageBox" class="message-box">
+        <div class="message-content-wrapper">
+            <p id="messageBoxText" class="mb-4 text-gray-800 dark:text-gray-200"></p>
+            <div class="message-buttons">
+                <!-- Buttons will be dynamically added here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <script type="module">
+        // Firebase SDK Imports
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import {
+            getAuth,
+            signInAnonymously,
+            signInWithCustomToken,
+            onAuthStateChanged,
+            createUserWithEmailAndPassword,
+            signInWithEmailAndPassword,
+            signOut,
+            updateProfile,
+            sendPasswordResetEmail,
+            reauthenticateWithCredential,
+            EmailAuthProvider,
+            updatePassword,
+            sendEmailVerification // Added for email verification
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import {
+            getFirestore,
+            doc,
+            getDoc,
+            setDoc,
+            updateDoc,
+            deleteDoc,
+            onSnapshot,
+            collection,
+            query,
+            where,
+            addDoc,
+            getDocs,
+            serverTimestamp,
+            arrayUnion,
+            arrayRemove,
+            writeBatch
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- Firebase Initialization ---
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+
+        let app;
+        let auth;
+        let db;
+        let currentFirebaseUser = null; // Firebase Auth user object
+        let currentUserData = null; // Firestore document for the user's profile
+        let userId = null;
+        let isAuthReady = false; // Flag to indicate if auth state has been checked
+        let followedUsers = []; // Global array to store users the current user is following
+        let notifications = []; // Global array to store user notifications
+
+
+        // --- UI State Management ---
+        const loginButton = document.getElementById('loginButton');
+        const logoutButton = document.getElementById('logoutButton');
+        const authModal = document.getElementById('authModal');
+        const authModalTitle = document.getElementById('authModalTitle');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const passwordResetForm = document.getElementById('passwordResetForm');
+        const messageBox = document.getElementById('messageBox');
+        const messageBoxText = document.getElementById('messageBoxText');
+        const messageBoxButtons = document.querySelector('#messageBox .message-buttons'); // Get the buttons container
+        const confirmModal = document.getElementById('confirmModal');
+        const confirmModalText = document.getElementById('confirmModalText');
+        const confirmModalCancel = document.getElementById('confirmModalCancel');
+        const confirmModalConfirm = document.getElementById('confirmModalConfirm');
+        const editPostModal = document.getElementById('editPostModal');
+        const changePasswordModal = document.getElementById('changePasswordModal');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+
+        // Sections
+        const feedSection = document.getElementById('feedSection');
+        const createPostSection = document.getElementById('createPostSection');
+        const profileSection = document.getElementById('profileSection');
+        const notificationsSection = document.getElementById('notificationsSection');
+        const searchSection = document.getElementById('searchSection');
+        const feedContainer = document.getElementById('feedSection');
+        const notificationsList = document.getElementById('notificationsList');
+        const searchResultsContainer = document.getElementById('searchResults');
+        const followingList = document.getElementById('followingList');
+
+        const allSections = [feedSection, createPostSection, profileSection, notificationsSection, searchSection];
+
+        // --- Helper Functions ---
+
+        /**
+         * Shows the loading overlay.
+         */
+        function showLoading() {
+            loadingOverlay.classList.add('show');
+        }
+
+        /**
+         * Hides the loading overlay.
+         */
+        function hideLoading() {
+            loadingOverlay.classList.remove('show');
+        }
+
+        /**
+         * Shows a specific section and hides all others.
+         * @param {HTMLElement} sectionToShow - The HTML element of the section to display.
+         */
+        function showSection(sectionToShow) {
+            allSections.forEach(section => {
+                section.classList.add('hidden');
+            });
+            sectionToShow.classList.remove('hidden');
+            // Scroll to top of the new section
+            sectionToShow.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // Update content for specific sections when shown
+            if (sectionToShow === profileSection) {
+                renderProfile();
+            } else if (sectionToShow === notificationsSection) {
+                renderNotifications();
+            } else if (sectionToShow === feedSection) {
+                // Feed is handled by onSnapshot, no explicit renderPosts needed here
+            } else if (sectionToShow === searchSection) {
+                searchResultsContainer.innerHTML = '<p class="empty-state text-sm">Enter a keyword and click search to see results.</p>';
+            }
+        }
+        // Make showSection globally accessible
+        window.showSection = showSection;
+
+
+        /**
+         * Shows the authentication modal with a specific form.
+         * @param {string} formType - 'login', 'register', or 'reset'.
+         */
+        function showAuthModal(formType) {
+            authModal.classList.add('show');
+            loginForm.classList.add('hidden');
+            registerForm.classList.add('hidden');
+            passwordResetForm.classList.add('hidden');
+
+            if (formType === 'login') {
+                authModalTitle.textContent = 'Login';
+                loginForm.classList.remove('hidden');
+            } else if (formType === 'register') {
+                authModalTitle.textContent = 'Register';
+                registerForm.classList.remove('hidden');
+                checkPasswordStrength(''); // Reset password strength indicator
+            } else if (formType === 'reset') {
+                authModalTitle.textContent = 'Reset Password';
+                passwordResetForm.classList.remove('hidden');
+            }
+        }
+
+        /**
+         * Hides a modal.
+         * @param {string} modalId - The ID of the modal to close.
+         */
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+        // Make closeModal globally accessible
+        window.closeModal = closeModal;
+
+        /**
+         * Displays a custom message box.
+         * @param {string} message - The message to display.
+         * @param {Array<Object>} [buttons=[]] - An array of button configurations { text: string, className: string, onClick: function }.
+         * If empty, a default 'OK' button is shown.
+         */
+        function showMessageBox(message, buttons = []) {
+            messageBoxText.textContent = message;
+            messageBoxButtons.innerHTML = ''; // Clear existing buttons
+
+            if (buttons.length === 0) {
+                // Default OK button
+                const okButton = document.createElement('button');
+                okButton.className = 'btn-primary px-6 py-2';
+                okButton.textContent = 'OK';
+                okButton.onclick = () => messageBox.classList.remove('show');
+                messageBoxButtons.appendChild(okButton);
+            } else {
+                buttons.forEach(btnConfig => {
+                    const button = document.createElement('button');
+                    button.className = btnConfig.className || 'btn-primary px-6 py-2';
+                    button.textContent = btnConfig.text;
+                    button.onclick = () => {
+                        messageBox.classList.remove('show');
+                        if (btnConfig.onClick) btnConfig.onClick();
+                    };
+                    messageBoxButtons.appendChild(button);
+                });
+            }
+            messageBox.classList.add('show');
+        }
+
+
+        /**
+         * Displays a confirmation modal.
+         * @param {string} message - The confirmation message.
+         * @returns {Promise<boolean>} - Resolves true if confirmed, false otherwise.
+         */
+        function showConfirmModal(message) {
+            return new Promise(resolve => {
+                confirmModalText.textContent = message;
+                confirmModal.classList.add('show');
+
+                const handleConfirm = () => {
+                    closeModal('confirmModal');
+                    confirmModalConfirm.removeEventListener('click', handleConfirm);
+                    confirmModalCancel.removeEventListener('click', handleCancel);
+                    resolve(true);
+                };
+
+                const handleCancel = () => {
+                    closeModal('confirmModal');
+                    confirmModalConfirm.removeEventListener('click', handleConfirm);
+                    confirmModalCancel.removeEventListener('click', handleCancel);
+                    resolve(false);
+                };
+
+                confirmModalConfirm.addEventListener('click', handleConfirm);
+                confirmModalCancel.addEventListener('click', handleCancel);
+            });
+        }
+
+        /**
+         * Toggles the visibility of post options menu.
+         * @param {HTMLElement} button - The ellipsis button clicked.
+         */
+        function togglePostOptions(button) {
+            const menu = button.nextElementSibling; // The menu is the next sibling
+            menu.classList.toggle('hidden');
+
+            // Close other menus when one is opened
+            document.querySelectorAll('.post-options-menu').forEach(otherMenu => {
+                if (otherMenu !== menu) {
+                    otherMenu.classList.add('hidden');
+                }
+            });
+        }
+        // Make togglePostOptions globally accessible
+        window.togglePostOptions = togglePostOptions;
+
+
+        /**
+         * Toggles password visibility for a given input field.
+         * @param {string} inputId - The ID of the password input field.
+         */
+        function togglePasswordVisibility(inputId) {
+            const passwordInput = document.getElementById(inputId);
+            const toggleIconId = `toggle${inputId.charAt(0).toUpperCase() + inputId.slice(1)}`;
+            const toggleIcon = document.getElementById(toggleIconId);
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                if (toggleIcon) toggleIcon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                if (toggleIcon) toggleIcon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        /**
+         * Generates a strong random password.
+         * @param {number} length - The desired length of the password.
+         * @returns {string} - A strong password.
+         */
+        function generateStrongPassword(length = 16) {
+            const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=";
+            let password = "";
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * charset.length);
+                password += charset[randomIndex];
+            }
+            return password;
+        }
+
+        /**
+         * Checks the strength of a password and updates the UI.
+         * @param {string} password - The password to check.
+         * @param {string} [barId='passwordStrengthBar'] - ID of the strength bar element.
+         * @param {string} [textId='passwordStrengthText'] - ID of the strength text element.
+         */
+        function checkPasswordStrength(password, barId = 'passwordStrengthBar', textId = 'passwordStrengthText') {
+            const strengthBar = document.getElementById(barId);
+            const strengthText = document.getElementById(textId);
+
+            if (!strengthBar || !strengthText) return;
+
+            let score = 0;
+            if (password.length >= 8) score += 1;
+            if (password.length >= 12) score += 1;
+            if (/[A-Z]/.test(password)) score += 1;
+            if (/[a-z]/.test(password)) score += 1;
+            if (/[0-9]/.test(password)) score += 1;
+            if (/[!@#$%^&*()_+~`|}{[\]:;?><,./-=]/.test(password)) score += 1;
+
+            let strength = 'N/A';
+            let barWidth = 0;
+            let barClass = '';
+
+            if (password.length === 0) {
+                strength = 'N/A';
+                barWidth = 0;
+                barClass = '';
+            } else if (score < 3) {
+                strength = 'Weak';
+                barWidth = 33;
+                barClass = 'strength-weak';
+            } else if (score < 5) {
+                strength = 'Medium';
+                barWidth = 66;
+                barClass = 'strength-medium';
+            } else {
+                strength = 'Strong';
+                barWidth = 100;
+                barClass = 'strength-strong';
+            }
+
+            strengthBar.style.width = `${barWidth}%`;
+            strengthBar.className = `password-strength-bar ${barClass}`;
+            strengthText.textContent = `Password strength: ${strength}`;
+        }
+
+        /**
+         * Renders all posts to the feed section.
+         * @param {Array} postsData - Array of post objects from Firestore.
+         */
+        function renderPosts(postsData) {
+            feedContainer.innerHTML = ''; // Clear existing posts
+            if (!postsData || postsData.length === 0) {
+                feedContainer.innerHTML = '<p class="empty-state text-sm">No posts yet. Be the first to create one!</p>';
+                return;
+            }
+
+            // Sort posts by date, newest first
+            const sortedPosts = [...postsData].sort((a, b) => {
+                const dateA = a.timestamp ? a.timestamp.toDate() : new Date(0);
+                const dateB = b.timestamp ? b.timestamp.toDate() : new Date(0);
+                return dateB - dateA;
+            });
+
+            sortedPosts.forEach(post => {
+                const isMyPost = currentFirebaseUser && post.authorId === currentFirebaseUser.uid;
+                const postElement = document.createElement('div');
+                postElement.className = 'card bg-white p-6 rounded-lg shadow-md dark:bg-gray-800 dark:text-gray-100';
+                postElement.dataset.postId = post.id;
+
+                const postDate = post.timestamp ? post.timestamp.toDate().toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', month: 'short', day: 'numeric', year: 'numeric' }) : 'N/A';
+
+                // Check if the current user has liked this post
+                const likedByCurrentUser = post.likes && post.likes.includes(currentFirebaseUser?.uid);
+
+                postElement.innerHTML = `
+                    <div class="flex items-center mb-4">
+                        <img src="${post.authorPic || 'https://placehold.co/128x128/A78BFA/ffffff?text=User'}" alt="User Profile" class="w-12 h-12 rounded-full mr-4 object-cover">
+                        <div>
+                            <p class="font-semibold text-lg">${post.authorName}</p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">@${post.authorHandle} &bull; ${postDate} &bull; ${post.type}</p>
+                        </div>
+                        ${isMyPost ? `
+                        <div class="ml-auto relative">
+                            <button class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300" onclick="window.togglePostOptions(this)">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                            <div class="post-options-menu absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden dark:bg-gray-700">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600" onclick="window.editPost('${post.id}')">Edit Post</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900" onclick="window.deletePost('${post.id}')">Delete Post</a>
+                            </div>
+                        </div>
+                        ` : ''}
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-indigo-600 dark:text-indigo-400">${post.title}</h3>
+                    <div class="prose max-w-none text-gray-700 dark:text-gray-300 mb-4">${post.content}</div>
+                    <div class="flex items-center justify-between text-gray-500 dark:text-gray-400">
+                        <div class="flex space-x-4">
+                            <button class="flex items-center space-x-1 hover:text-red-500 transition-colors like-button ${likedByCurrentUser ? 'text-red-500' : ''}" data-post-id="${post.id}">
+                                <i class="fas fa-heart"></i>
+                                <span class="like-count">${post.likes ? post.likes.length : 0}</span>
+                            </button>
+                            <button class="flex items-center space-x-1 hover:text-blue-500 transition-colors comment-toggle" data-post-id="${post.id}">
+                                <i class="fas fa-comment"></i>
+                                <span>${post.comments ? post.comments.length : 0}</span>
+                            </button>
+                            <button class="flex items-center space-x-1 hover:text-green-500 transition-colors">
+                                <i class="fas fa-share"></i>
+                                <span>Share</span>
+                            </button>
+                        </div>
+                        ${currentFirebaseUser && post.authorId !== currentFirebaseUser.uid ? `<button class="btn-secondary px-4 py-2 text-sm follow-button" data-user-id="${post.authorId}" data-user-name="${post.authorName}" data-user-handle="${post.authorHandle}" data-user-pic="${post.authorPic}">${followedUsers.some(f => f.id === post.authorId) ? 'Unfollow' : 'Follow'}</button>` : ''}
+                    </div>
+
+                    <!-- Comments Section -->
+                    <div class="comments-section mt-6 border-t border-gray-200 pt-4 hidden dark:border-gray-700" data-post-id="${post.id}">
+                        <h4 class="font-semibold mb-3 text-gray-700 dark:text-gray-300">Comments</h4>
+                        <div class="comments-list space-y-4">
+                            ${post.comments && post.comments.length === 0 ? '<p class="empty-state text-sm">No comments yet. Be the first to comment!</p>' : ''}
+                        </div>
+                        <div class="mt-4 flex space-x-3">
+                            <input type="text" placeholder="Add a comment..." class="input-field flex-grow text-sm placeholder-gray-400 dark:placeholder-gray-500 comment-input">
+                            <button class="btn-primary px-4 py-2 text-sm add-comment-button">Post</button>
+                        </div>
+                    </div>
+                `;
+                feedContainer.appendChild(postElement);
+                renderCommentsForPost(post.id, post.comments); // Render comments for each post
+            });
+
+            attachPostEventListeners();
+        }
+
+        /**
+         * Renders comments for a specific post.
+         * @param {string} postId - The ID of the post.
+         * @param {Array} commentsData - Array of comment objects.
+         */
+        function renderCommentsForPost(postId, commentsData) {
+            const commentsListDiv = document.querySelector(`.comments-section[data-post-id="${postId}"] .comments-list`);
+            if (!commentsListDiv) return;
+
+            commentsListDiv.innerHTML = ''; // Clear existing comments
+
+            if (!commentsData || commentsData.length === 0) {
+                commentsListDiv.innerHTML = '<p class="empty-state text-sm">No comments yet. Be the first to comment!</p>';
+                return;
+            }
+
+            commentsData.forEach(comment => {
+                const commentElement = document.createElement('div');
+                commentElement.className = 'flex items-start space-x-3';
+                const commentDate = comment.timestamp ? comment.timestamp.toDate().toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', month: 'short', day: 'numeric', year: 'numeric' }) : 'N/A';
+                commentElement.innerHTML = `
+                    <img src="${comment.authorPic || 'https://placehold.co/30x30/F87171/ffffff?text=U'}" alt="Commenter" class="w-8 h-8 rounded-full object-cover">
+                    <div>
+                        <p class="font-semibold text-sm">${comment.authorName} <span class="text-xs text-gray-500 font-normal dark:text-gray-400">${commentDate}</span></p>
+                        <p class="text-gray-700 text-sm dark:text-gray-300">${comment.content}</p>
+                        <button class="text-xs text-indigo-600 hover:underline mt-1 dark:text-indigo-400">Reply</button>
+                    </div>
+                `;
+                commentsListDiv.appendChild(commentElement);
+            });
+        }
+
+        /**
+         * Attaches event listeners to dynamically rendered post elements.
+         */
+        function attachPostEventListeners() {
+            document.querySelectorAll('.like-button').forEach(button => {
+                button.onclick = async () => {
+                    if (!isAuthReady || !currentFirebaseUser) {
+                        showMessageBox('Please login to like posts.');
+                        return;
+                    }
+                    showLoading();
+                    const postId = button.dataset.postId;
+                    const postRef = doc(db, `artifacts/${appId}/public/data/posts`, postId);
+
+                    try {
+                        const postSnap = await getDoc(postRef);
+                        if (postSnap.exists()) {
+                            const postData = postSnap.data();
+                            let likes = postData.likes || [];
+                            const userId = currentFirebaseUser.uid;
+
+                            if (likes.includes(userId)) {
+                                // Unlike
+                                await updateDoc(postRef, {
+                                    likes: arrayRemove(userId)
+                                });
+                                showMessageBox(`Unliked post "${postData.title}".`);
+                            } else {
+                                // Like
+                                await updateDoc(postRef, {
+                                    likes: arrayUnion(userId)
+                                });
+                                showMessageBox(`Liked post "${postData.title}"!`);
+                                // Add notification for the post author
+                                if (postData.authorId !== userId) {
+                                    await addNotification(`${currentUserData.username} liked your post "${postData.title}".`, 'like', postData.authorId);
+                                }
+                            }
+                        }
+                    } catch (error) {
+                        console.error("Error liking/unliking post:", error);
+                        showMessageBox(`Error: ${error.message}`);
+                    } finally {
+                        hideLoading();
+                    }
+                };
+            });
+
+            document.querySelectorAll('.comment-toggle').forEach(button => {
+                button.onclick = () => {
+                    const postId = button.dataset.postId;
+                    const commentsSection = document.querySelector(`.comments-section[data-post-id="${postId}"]`);
+                    commentsSection.classList.toggle('hidden');
+                };
+            });
+
+            document.querySelectorAll('.add-comment-button').forEach(button => {
+                button.onclick = async () => {
+                    if (!isAuthReady || !currentFirebaseUser || !currentUserData) {
+                        showMessageBox('Please login to comment on posts.');
+                        return;
+                    }
+                    showLoading();
+                    const commentInput = button.previousElementSibling;
+                    const commentText = commentInput.value.trim();
+                    const postId = button.closest('.comments-section').dataset.postId;
+                    const postRef = doc(db, `artifacts/${appId}/public/data/posts`, postId);
+
+                    if (!commentText) {
+                        showMessageBox('Please enter a comment.');
+                        hideLoading();
+                        return;
+                    }
+
+                    try {
+                        const newComment = {
+                            id: crypto.randomUUID(),
+                            authorId: currentFirebaseUser.uid,
+                            authorName: currentUserData.username,
+                            authorPic: currentUserData.profilePic || 'https://placehold.co/30x30/F87171/ffffff?text=U',
+                            content: commentText,
+                            timestamp: serverTimestamp()
+                        };
+
+                        await updateDoc(postRef, {
+                            comments: arrayUnion(newComment)
+                        });
+
+                        commentInput.value = ''; // Clear input
+                        showMessageBox('Comment added!');
+
+                        // Add notification for the post author
+                        const postSnap = await getDoc(postRef);
+                        if (postSnap.exists() && postSnap.data().authorId !== currentFirebaseUser.uid) {
+                            await addNotification(`${currentUserData.username} commented on your post "${postSnap.data().title}".`, 'comment', postSnap.data().authorId);
+                        }
+                    } catch (error) {
+                        console.error("Error adding comment:", error);
+                        showMessageBox(`Error: ${error.message}`);
+                    } finally {
+                        hideLoading();
+                    }
+                };
+            });
+
+            document.querySelectorAll('.follow-button').forEach(button => {
+                button.onclick = async () => {
+                    if (!isAuthReady || !currentFirebaseUser || !currentUserData) {
+                        showMessageBox('Please login to follow users.');
+                        return;
+                    }
+                    showLoading();
+                    const userIdToFollow = button.dataset.userId;
+                    const userNameToFollow = button.dataset.userName;
+                    const userHandleToFollow = button.dataset.userHandle;
+                    const userPicToFollow = button.dataset.userPic;
+
+                    if (userIdToFollow === currentFirebaseUser.uid) {
+                        showMessageBox("You cannot follow yourself.");
+                        hideLoading();
+                        return;
+                    }
+
+                    const followingRef = doc(db, `artifacts/${appId}/users/${currentFirebaseUser.uid}/following`, userIdToFollow);
+
+                    try {
+                        const followingSnap = await getDoc(followingRef);
+
+                        if (followingSnap.exists()) {
+                            // Unfollow
+                            await deleteDoc(followingRef);
+                            showMessageBox(`Unfollowed ${userNameToFollow}.`);
+                        } else {
+                            // Follow
+                            await setDoc(followingRef, {
+                                id: userIdToFollow,
+                                name: userNameToFollow,
+                                handle: userHandleToFollow,
+                                pic: userPicToFollow,
+                                timestamp: serverTimestamp()
+                            });
+                            showMessageBox(`Now following ${userNameToFollow}!`);
+                            // Add notification for the followed user
+                            await addNotification(`${currentUserData.username} is now following you.`, 'follow', userIdToFollow);
+                        }
+                        // Re-render following list and posts to update buttons
+                        fetchFollowingList();
+                    } catch (error) {
+                        console.error("Error following/unfollowing user:", error);
+                        showMessageBox(`Error: ${error.message}`);
+                    } finally {
+                        hideLoading();
+                    }
+                };
+            });
+        }
+
+        /**
+         * Renders the user's profile information.
+         */
+        async function renderProfile() {
+            if (!isAuthReady || !currentFirebaseUser || !currentUserData) {
+                // If not logged in or data not ready, clear profile fields
+                document.getElementById('profilePicturePreview').src = 'https://placehold.co/128x128/A78BFA/ffffff?text=User';
+                document.getElementById('profileUsername').textContent = 'Guest User';
+                document.getElementById('profileHandle').textContent = '@guest';
+                document.getElementById('profileBio').value = '';
+                document.getElementById('profileEmail').value = '';
+                document.getElementById('profileLocation').value = '';
+
+                document.getElementById('sidebarProfilePic').src = 'https://placehold.co/100x100/A78BFA/ffffff?text=User';
+                document.getElementById('sidebarUsername').textContent = 'Guest';
+                document.getElementById('sidebarHandle').textContent = '@guest';
+                document.getElementById('sidebarBio').textContent = 'Login to see your profile.';
+                document.getElementById('sidebarPostCount').textContent = '0';
+                document.getElementById('sidebarFollowerCount').textContent = '0';
+                document.getElementById('sidebarFollowingCount').textContent = '0';
+                return;
+            }
+
+            document.getElementById('profilePicturePreview').src = currentUserData.profilePic || currentFirebaseUser.photoURL || 'https://placehold.co/128x128/A78BFA/ffffff?text=User';
+            document.getElementById('profileUsername').textContent = currentUserData.username || currentFirebaseUser.displayName || 'User';
+            document.getElementById('profileHandle').textContent = `@${currentUserData.handle || currentFirebaseUser.displayName?.toLowerCase().replace(/\s/g, '') || 'user'}`;
+            document.getElementById('profileBio').value = currentUserData.bio || '';
+            document.getElementById('profileEmail').value = currentFirebaseUser.email || '';
+            document.getElementById('profileLocation').value = currentUserData.location || '';
+
+            // Fetch post count
+            const postsQuery = query(collection(db, `artifacts/${appId}/public/data/posts`), where("authorId", "==", currentFirebaseUser.uid));
+            const postsSnap = await getDocs(postsQuery);
+            document.getElementById('sidebarPostCount').textContent = postsSnap.size;
+
+            // Fetch following count
+            const followingQuery = collection(db, `artifacts/${appId}/users/${currentFirebaseUser.uid}/following`);
+            const followingSnap = await getDocs(followingQuery);
+            document.getElementById('sidebarFollowingCount').textContent = followingSnap.size;
+
+            // Follower count is harder to simulate without a backend query across all users, keep as placeholder
+            document.getElementById('sidebarFollowerCount').textContent = '0'; // Placeholder
+        }
+
+        /**
+         * Fetches and renders the list of followed users in the sidebar.
+         */
+        async function fetchFollowingList() {
+            followingList.innerHTML = '';
+            if (!isAuthReady || !currentFirebaseUser) {
+                followingList.innerHTML = '<li class="empty-state text-sm">Login to see who you\'re following.</li>';
+                return;
+            }
+
+            try {
+                const followingColRef = collection(db, `artifacts/${appId}/users/${currentFirebaseUser.uid}/following`);
+                const q = query(followingColRef);
+
+                onSnapshot(q, (snapshot) => {
+                    followedUsers = []; // Clear current list
+                    if (snapshot.empty) {
+                        followingList.innerHTML = '<li class="empty-state text-sm">No one followed yet.</li>';
+                        return;
+                    }
+                    snapshot.forEach(doc => {
+                        followedUsers.push({ id: doc.id, ...doc.data() });
+                    });
+                    renderFollowingListUI(); // Render the updated list
+                });
+
+            } catch (error) {
+                console.error("Error fetching following list:", error);
+                followingList.innerHTML = `<li class="text-red-500 text-sm">Error loading following list: ${error.message}</li>`;
+            }
+        }
+
+        /**
+         * Renders the UI for the following list based on the `followedUsers` array.
+         */
+        function renderFollowingListUI() {
+            followingList.innerHTML = '';
+            if (followedUsers.length === 0) {
+                followingList.innerHTML = '<li class="empty-state text-sm">No one followed yet.</li>';
+                return;
+            }
+            followedUsers.forEach(user => {
+                const li = document.createElement('li');
+                li.className = 'flex items-center space-x-3 p-2 rounded-md cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors';
+                li.innerHTML = `
+                    <img src="${user.pic || 'https://placehold.co/40x40/A78BFA/ffffff?text=U'}" alt="${user.name}" class="w-10 h-10 rounded-full object-cover">
+                    <span class="font-medium">${user.name}</span>
+                    <button class="ml-auto text-sm text-indigo-600 hover:underline dark:text-indigo-400 unfollow-sidebar-button" data-user-id="${user.id}" data-user-name="${user.name}">Unfollow</button>
+                `;
+                followingList.appendChild(li);
+            });
+
+            document.querySelectorAll('.unfollow-sidebar-button').forEach(button => {
+                button.onclick = async () => {
+                    if (!isAuthReady || !currentFirebaseUser) return;
+                    showLoading();
+                    const userIdToUnfollow = button.dataset.userId;
+                    const userNameToUnfollow = button.dataset.userName;
+                    try {
+                        await deleteDoc(doc(db, `artifacts/${appId}/users/${currentFirebaseUser.uid}/following`, userIdToUnfollow));
+                        showMessageBox(`Unfollowed ${userNameToUnfollow}.`);
+                    } catch (error) {
+                        console.error("Error unfollowing user:", error);
+                        showMessageBox(`Error: ${error.message}`);
+                    } finally {
+                        hideLoading();
+                    }
+                };
+            });
+        }
+
+        /**
+         * Adds a new notification to a specific user's notification collection.
+         * @param {string} message - The notification message.
+         * @param {string} type - 'like', 'comment', 'follow', 'request'.
+         * @param {string} targetUserId - The UID of the user who should receive the notification.
+         */
+        async function addNotification(message, type, targetUserId) {
+            if (!db || !targetUserId) return;
+            try {
+                await addDoc(collection(db, `artifacts/${appId}/users/${targetUserId}/notifications`), {
+                    message: message,
+                    type: type,
+                    read: false,
+                    timestamp: serverTimestamp(),
+                    senderId: currentFirebaseUser ? currentFirebaseUser.uid : null, // Who sent it
+                    senderName: currentUserData ? currentUserData.username : 'Guest'
+                });
+                console.log(`Notification added for ${targetUserId}: ${message}`);
+            } catch (error) {
+                console.error("Error adding notification:", error);
+            }
+        }
+
+        /**
+         * Renders the notifications list for the current user.
+         */
+        async function renderNotifications() {
+            notificationsList.innerHTML = '';
+            if (!isAuthReady || !currentFirebaseUser) {
+                notificationsList.innerHTML = '<li class="empty-state text-sm">Login to see your notifications.</li>';
+                return;
+            }
+
+            try {
+                const notificationsColRef = collection(db, `artifacts/${appId}/users/${currentFirebaseUser.uid}/notifications`);
+                const q = query(notificationsColRef);
+
+                onSnapshot(q, (snapshot) => {
+                    notifications = []; // Clear current list
+                    if (snapshot.empty) {
+                        notificationsList.innerHTML = '<li class="empty-state text-sm">No new notifications.</li>';
+                        return;
+                    }
+                    snapshot.forEach(doc => {
+                        notifications.push({ id: doc.id, ...doc.data() });
+                    });
+                    // Sort notifications by timestamp, newest first
+                    notifications.sort((a, b) => {
+                        const dateA = a.timestamp ? a.timestamp.toDate() : new Date(0);
+                        const dateB = b.timestamp ? b.timestamp.toDate() : new Date(0);
+                        return dateB - dateA;
+                    });
+                    renderNotificationsUI(); // Render the updated list
+                });
+
+            } catch (error) {
+                console.error("Error fetching notifications:", error);
+                notificationsList.innerHTML = `<li class="text-red-500 text-sm">Error loading notifications: ${error.message}</li>`;
+            }
+        }
+
+        /**
+         * Renders the UI for the notifications list based on the `notifications` array.
+         */
+        function renderNotificationsUI() {
+            notificationsList.innerHTML = '';
+            if (notifications.length === 0) {
+                notificationsList.innerHTML = '<li class="empty-state text-sm">No new notifications.</li>';
+                return;
+            }
+
+            notifications.forEach(notification => {
+                let iconClass = '';
+                let iconColor = '';
+                let actionsHtml = '';
+
+                switch (notification.type) {
+                    case 'like':
+                        iconClass = 'fas fa-heart';
+                        iconColor = 'text-red-500';
+                        break;
+                    case 'comment':
+                        iconClass = 'fas fa-comment';
+                        iconColor = 'text-blue-500';
+                        break;
+                    case 'follow':
+                        iconClass = 'fas fa-user-check';
+                        iconColor = 'text-indigo-500';
+                        break;
+                    case 'request': // Assuming 'request' type might have accept/decline actions
+                        iconClass = 'fas fa-user-plus';
+                        iconColor = 'text-green-500';
+                        actionsHtml = `
+                            <div class="mt-2 space-x-2">
+                                <button class="text-sm px-3 py-1 rounded-md bg-green-500 text-white hover:bg-green-600 accept-request-button" data-notification-id="${notification.id}" data-sender-id="${notification.senderId}" data-sender-name="${notification.senderName}">Accept</button>
+                                <button class="text-sm px-3 py-1 rounded-md bg-red-500 text-white hover:bg-red-600 decline-request-button" data-notification-id="${notification.id}">Deline</button>
+                            </div>
+                        `;
+                        break;
+                    default:
+                        iconClass = 'fas fa-info-circle';
+                        iconColor = 'text-gray-500';
+                }
+
+                const notificationDate = notification.timestamp ? notification.timestamp.toDate().toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', month: 'short', day: 'numeric', year: 'numeric' }) : 'N/A';
+
+                const li = document.createElement('li');
+                li.className = `flex items-start space-x-4 p-3 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${notification.read ? 'opacity-70' : ''}`;
+                li.innerHTML = `
+                    <i class="${iconClass} ${iconColor} text-xl mt-1"></i>
+                    <div>
+                        <p class="text-gray-700 dark:text-gray-300">${notification.message}</p>
+                        <span class="text-xs text-gray-500 dark:text-gray-400">${notificationDate}</span>
+                        ${actionsHtml}
+                    </div>
+                `;
+                notificationsList.appendChild(li);
+            });
+
+            attachNotificationEventListeners();
+        }
+
+        /**
+         * Marks all notifications as read for the current user.
+         */
+        async function markAllNotificationsAsRead() {
+            if (!isAuthReady || !currentFirebaseUser) return;
+            showLoading();
+            try {
+                const notificationsColRef = collection(db, `artifacts/${appId}/users/${currentFirebaseUser.uid}/notifications`);
+                const q = query(notificationsColRef, where("read", "==", false));
+                const unreadSnap = await getDocs(q);
+
+                const batch = writeBatch(db); // Use batch writes for efficiency
+                unreadSnap.forEach(doc => {
+                    batch.update(doc.ref, { read: true });
+                });
+                await batch.commit();
+                showMessageBox('All notifications marked as read.');
+            } catch (error) {
+                console.error("Error marking all notifications as read:", error);
+                showMessageBox(`Error: ${error.message}`);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        /**
+         * Clears all notifications for the current user.
+         */
+        async function clearAllNotifications() {
+            if (!isAuthReady || !currentFirebaseUser) return;
+            const confirmed = await showConfirmModal('Are you sure you want to clear all notifications? This action cannot be undone.');
+            if (!confirmed) return;
+
+            showLoading();
+            try {
+                const notificationsColRef = collection(db, `artifacts/${appId}/users/${currentFirebaseUser.uid}/notifications`);
+                const q = query(notificationsColRef);
+                const allNotificationsSnap = await getDocs(q);
+
+                const batch = writeBatch(db);
+                allNotificationsSnap.forEach(doc => {
+                    batch.delete(doc.ref);
+                });
+                await batch.commit();
+                showMessageBox('All notifications cleared.');
+            } catch (error) {
+                console.error("Error clearing all notifications:", error);
+                showMessageBox(`Error: ${error.message}`);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        /**
+         * Attaches event listeners to dynamically rendered notification elements.
+         */
+        function attachNotificationEventListeners() {
+            document.querySelectorAll('.accept-request-button').forEach(button => {
+                button.onclick = async () => {
+                    if (!isAuthReady || !currentFirebaseUser) return;
+                    showLoading();
+                    const notificationId = button.dataset.notificationId;
+                    const senderId = button.dataset.senderId;
+                    const senderName = button.dataset.senderName;
+
+                    try {
+                        // 1. Add sender to current user's following list
+                        await setDoc(doc(db, `artifacts/${appId}/users/${currentFirebaseUser.uid}/following`, senderId), {
+                            id: senderId,
+                            name: senderName,
+                            handle: senderName.toLowerCase().replace(/\s/g, ''), // Simple handle
+                            pic: `https://placehold.co/40x40/${Math.floor(Math.random()*16777215).toString(16)}/ffffff?text=${senderName.charAt(0)}`,
+                            timestamp: serverTimestamp()
+                        });
+
+                        // 2. Delete the notification
+                        await deleteDoc(doc(db, `artifacts/${appId}/users/${currentFirebaseUser.uid}/notifications`, notificationId));
+
+                        showMessageBox(`Friend request from ${senderName} accepted!`);
+                        // Re-fetch following list to update sidebar
+                        fetchFollowingList();
+                    } catch (error) {
+                        console.error("Error accepting friend request:", error);
+                        showMessageBox(`Error: ${error.message}`);
+                    } finally {
+                        hideLoading();
+                    }
+                };
+            });
+
+            document.querySelectorAll('.decline-request-button').forEach(button => {
+                button.onclick = async () => {
+                    if (!isAuthReady || !currentFirebaseUser) return;
+                    showLoading();
+                    const notificationId = button.dataset.notificationId;
+                    try {
+                        await deleteDoc(doc(db, `artifacts/${appId}/users/${currentFirebaseUser.uid}/notifications`, notificationId));
+                        showMessageBox('Friend request declined.');
+                    } catch (error) {
+                        console.error("Error declining friend request:", error);
+                        showMessageBox(`Error: ${error.message}`);
+                    } finally {
+                        hideLoading();
+                    }
+                };
+            });
+        }
+
+        // --- Event Listeners ---
+
+        // Initial check for login state and UI update
+        function updateLoginUI() {
+            if (currentFirebaseUser) {
+                loginButton.classList.add('hidden');
+                logoutButton.classList.remove('hidden');
+                window.showSection(feedSection); // Use window.showSection
+            } else {
+                loginButton.classList.remove('hidden');
+                logoutButton.classList.add('hidden');
+                showAuthModal('login'); // Show login modal if not logged in
+            }
+        }
+
+        // Login/Logout button handlers
+        loginButton.addEventListener('click', () => showAuthModal('login'));
+        logoutButton.addEventListener('click', async () => {
+            const confirmed = await showConfirmModal('Are you sure you want to log out?');
+            if (confirmed) {
+                showLoading();
+                try {
+                    await signOut(auth);
+                    showMessageBox('You have been logged out.');
+                } catch (error) {
+                    console.error("Error during logout:", error);
+                    showMessageBox(`Logout failed: ${error.message}`);
+                } finally {
+                    hideLoading();
+                }
+            }
+        });
+
+        // Auth modal form switching
+        document.getElementById('showRegister').addEventListener('click', (e) => {
+            e.preventDefault();
+            showAuthModal('register');
+        });
+        document.getElementById('showLogin').addEventListener('click', (e) => {
+            e.preventDefault();
+            showAuthModal('login');
+        });
+        document.getElementById('forgotPassword').addEventListener('click', (e) => {
+            e.preventDefault();
+            showAuthModal('reset');
+        });
+        document.getElementById('showLoginFromReset').addEventListener('click', (e) => {
+            e.preventDefault();
+            showAuthModal('login');
+        });
+
+        // Firebase Login
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                showMessageBox('Please enter both email and password.');
+                return;
+            }
+
+            showLoading();
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                if (!user.emailVerified) {
+                    // If email is not verified, sign out and prompt user
+                    await signOut(auth); // Sign out the user immediately
+                    showMessageBox(
+                        'Your email is not verified. Please check your inbox for a verification link. ' +
+                        'You must verify your email to log in.',
+                        [
+                            {
+                                text: 'Resend Email',
+                                className: 'btn-primary',
+                                onClick: async () => {
+                                    showLoading();
+                                    try {
+                                        // Re-authenticate the user to get a fresh user object before sending email verification
+                                        // This is a workaround as sendEmailVerification might fail if the user object is stale.
+                                        // However, since we just signed them in or they were already signed in,
+                                        // the user object should be fresh enough. If issues persist, consider
+                                        // re-authenticating with credentials before sendEmailVerification.
+                                        await sendEmailVerification(user);
+                                        showMessageBox('Verification email resent! Please check your inbox.');
+                                    } catch (resendError) {
+                                        console.error("Error resending verification email:", resendError);
+                                        showMessageBox(`Failed to resend verification email: ${resendError.message}`);
+                                    } finally {
+                                        hideLoading();
+                                        showAuthModal('login'); // Keep login modal open
+                                    }
+                                }
+                            },
+                            {
+                                text: 'OK',
+                                className: 'btn-secondary',
+                                onClick: () => {
+                                    showAuthModal('login'); // Keep login modal open
+                                }
+                            }
+                        ]
+                    );
+                    return; // Stop further login processing
+                }
+
+                // If email is verified, proceed with login
+                window.closeModal('authModal');
+                showMessageBox('Logged in successfully!');
+                // onAuthStateChanged will handle fetching user data and updating UI
+            } catch (error) {
+                console.error("Login error:", error);
+                showMessageBox(`Login failed: ${error.message}`);
+            } finally {
+                hideLoading();
+            }
+        });
+
+        // Firebase Registration
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('registerUsername').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirmPassword').value;
+
+            if (!username || !email || !password || !confirmPassword) {
+                showMessageBox('Please fill all fields.');
+                return;
+            }
+            if (password !== confirmPassword) {
+                showMessageBox('Passwords do not match.');
+                return;
+            }
+            if (checkPasswordStrength(password, 'passwordStrengthBar', 'passwordStrengthText') < 5) {
+                showMessageBox('Please choose a stronger password. It should be at least 8 characters long and include uppercase, lowercase, numbers, and symbols.');
+                return;
+            }
+
+            showLoading();
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                // Update Auth profile
+                await updateProfile(user, {
+                    displayName: username,
+                    photoURL: `https://placehold.co/128x128/${Math.floor(Math.random()*16777215).toString(16)}/ffffff?text=${username.charAt(0)}`
+                });
+
+                // Send email verification
+                await sendEmailVerification(user);
+
+                await setDoc(doc(db, `artifacts/${appId}/users/${user.uid}`), {
+                    username: username,
+                    handle: username.toLowerCase().replace(/\s/g, ''),
+                    email: email,
+                    profilePic: user.photoURL,
+                    bio: `Hello, I'm ${username}!`,
+                    location: 'Earth',
+                    createdAt: serverTimestamp()
+                });
+
+                showMessageBox('Registration successful! A verification link has been sent to your email. Please verify your email before logging in.', () => {
+                    showAuthModal('login'); // Redirect to login after registration
+                });
+            } catch (error) {
+                console.error("Registration error:", error);
+                showMessageBox(`Registration failed: ${error.message}`);
+            } finally {
+                hideLoading();
+            }
+        });
+
+        // Firebase Password Reset
+        passwordResetForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('resetEmail').value;
+
+            if (!email) {
+                showMessageBox('Please enter your email.');
+                return;
+            }
+            showLoading();
+            try {
+                await sendPasswordResetEmail(auth, email);
+                showMessageBox('Password reset link sent to your email. Please check your inbox.', () => {
+                    showAuthModal('login');
+                });
+            } catch (error) {
+                console.error("Error sending password reset email:", error);
+                showMessageBox(`Password reset failed: ${error.message}`);
+            } finally {
+                hideLoading();
+            }
+        });
+
+        // Navigation link handlers (desktop and mobile)
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (!isAuthReady || !currentFirebaseUser) {
+                    showMessageBox('Please login to access this section.');
+                    showAuthModal('login');
+                    return;
+                }
+                const sectionId = link.dataset.section;
+                const sectionElement = document.getElementById(sectionId);
+                if (sectionElement) {
+                    window.showSection(sectionElement); // Use window.showSection
+                }
+            });
+        });
+
+        // Post System - Submit Post
+        document.getElementById('submitPostButton').addEventListener('click', async () => {
+            if (!isAuthReady || !currentFirebaseUser || !currentUserData) {
+                showMessageBox('Please login to create posts.');
+                return;
+            }
+
+            const title = document.getElementById('postTitle').value;
+            const content = document.getElementById('postContentEditor').innerHTML;
+            const type = document.getElementById('postType').value;
+            const visibility = document.getElementById('postVisibility').value;
+
+            if (!title || content.trim() === '' || content.trim() === '<br>') {
+                showMessageBox('Please enter a title and content for your post.');
+                return;
+            }
+
+            showLoading();
+            try {
+                await addDoc(collection(db, `artifacts/${appId}/public/data/posts`), {
+                    authorId: currentFirebaseUser.uid,
+                    authorName: currentUserData.username,
+                    authorHandle: currentUserData.handle,
+                    authorPic: currentUserData.profilePic,
+                    title: title,
+                    content: content,
+                    type: type,
+                    visibility: visibility,
+                    timestamp: serverTimestamp(),
+                    likes: [], // Initialize with empty array of UIDs
+                    comments: [] // Initialize with empty array of comments
+                });
+
+                showMessageBox(`Post "${title}" published successfully!`, () => {
+                    document.getElementById('postTitle').value = '';
+                    document.getElementById('postContentEditor').innerHTML = '';
+                    window.showSection(feedSection); // Use window.showSection
+                });
+            } catch (error) {
+                console.error("Error publishing post:", error);
+                showMessageBox(`Error: ${error.message}`);
+            } finally {
+                hideLoading();
+            }
+        });
+
+        // Post System - Edit Post
+        window.editPost = async (postId) => {
+            if (!isAuthReady || !currentFirebaseUser || !currentUserData) {
+                showMessageBox('Please login to edit posts.');
+                return;
+            }
+            showLoading();
+            try {
+                const postRef = doc(db, `artifacts/${appId}/public/data/posts`, postId);
+                const postSnap = await getDoc(postRef);
+
+                if (postSnap.exists() && postSnap.data().authorId === currentFirebaseUser.uid) {
+                    const postData = postSnap.data();
+                    document.getElementById('editPostId').value = postId;
+                    document.getElementById('editPostTitle').value = postData.title;
+                    document.getElementById('editPostContentEditor').innerHTML = postData.content;
+                    document.getElementById('editPostType').value = postData.type;
+                    document.getElementById('editPostVisibility').value = postData.visibility;
+                    editPostModal.classList.add('show');
+                } else {
+                    showMessageBox('You can only edit your own posts.');
+                }
+            } catch (error) {
+                console.error("Error fetching post for edit:", error);
+                showMessageBox(`Error: ${error.message}`);
+            } finally {
+                hideLoading();
+            }
+        };
+
+        document.getElementById('saveEditedPostButton').addEventListener('click', async () => {
+            if (!isAuthReady || !currentFirebaseUser) return;
+            const postId = document.getElementById('editPostId').value;
+            const updatedTitle = document.getElementById('editPostTitle').value;
+            const updatedContent = document.getElementById('editPostContentEditor').innerHTML;
+            const updatedType = document.getElementById('editPostType').value;
+            const updatedVisibility = document.getElementById('editPostVisibility').value;
+
+            if (!updatedTitle || updatedContent.trim() === '' || updatedContent.trim() === '<br>') {
+                showMessageBox('Please enter a title and content for your post.');
+                return;
+            }
+
+            showLoading();
+            try {
+                const postRef = doc(db, `artifacts/${appId}/public/data/posts`, postId);
+                await updateDoc(postRef, {
+                    title: updatedTitle,
+                    content: updatedContent,
+                    type: updatedType,
+                    visibility: updatedVisibility,
+                    updatedAt: serverTimestamp() // Add an update timestamp
+                });
+                window.closeModal('editPostModal'); // Use window.closeModal
+                showMessageBox('Post updated successfully!');
+            } catch (error) {
+                console.error("Error saving edited post:", error);
+                showMessageBox(`Error: ${error.message}`);
+            } finally {
+                hideLoading();
+            }
+        });
+
+        // Post System - Delete Post
+        window.deletePost = async (postId) => {
+            if (!isAuthReady || !currentFirebaseUser) {
+                showMessageBox('Please login to delete posts.');
+                return;
+            }
+            const confirmed = await showConfirmModal('Are you sure you want to delete this post? This action cannot be undone.');
+            if (!confirmed) return;
+
+            showLoading();
+            try {
+                const postRef = doc(db, `artifacts/${appId}/public/data/posts`, postId);
+                const postSnap = await getDoc(postRef);
+
+                if (postSnap.exists() && postSnap.data().authorId === currentFirebaseUser.uid) {
+                    await deleteDoc(postRef);
+                    showMessageBox('Post deleted successfully!');
+                } else {
+                    showMessageBox('You can only delete your own posts.');
+                }
+            } catch (error) {
+                console.error("Error deleting post:", error);
+                showMessageBox(`Error: ${error.message}`);
+            } finally {
+                hideLoading();
+            }
+        };
+
+        // Profile System - Save Profile Update
+        document.getElementById('saveProfileButton').addEventListener('click', async () => {
+            if (!isAuthReady || !currentFirebaseUser || !currentUserData) {
+                showMessageBox('Please login to save your profile.');
+                return;
+            }
+            const bio = document.getElementById('profileBio').value;
+            const location = document.getElementById('profileLocation').value;
+            const profilePicFile = document.getElementById('profilePictureUpload').files[0];
+
+            showLoading();
+            try {
+                const userDocRef = doc(db, `artifacts/${appId}/users/${currentFirebaseUser.uid}`);
+                const updateData = {
+                    bio: bio,
+                    location: location
+                };
+
+                if (profilePicFile) {
+                    // Simulate profile picture upload (no actual upload, just update URL)
+                    const newProfilePicUrl = URL.createObjectURL(profilePicFile);
+                    updateData.profilePic = newProfilePicUrl;
+                    // Also update Firebase Auth photoURL
+                    await updateProfile(currentFirebaseUser, { photoURL: newProfilePicUrl });
+                }
+
+                await updateDoc(userDocRef, updateData);
+                showMessageBox('Profile updated successfully!');
+                // Re-fetch user data to update currentUserData and re-render profile
+                await fetchUserData(currentFirebaseUser.uid);
+                renderProfile();
+            } catch (error) {
+                console.error("Error saving profile:", error);
+                showMessageBox(`Error: ${error.message}`);
+            } finally {
+                hideLoading();
+            }
+        });
+
+        // Profile Picture Upload Preview (local preview only)
+        document.getElementById('profilePictureUpload').addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    document.getElementById('profilePicturePreview').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+
+        // Change Password Button on Profile
+        document.getElementById('changePasswordButton').addEventListener('click', () => {
+            if (!isAuthReady || !currentFirebaseUser) {
+                showMessageBox('Please login to change your password.');
+                return;
+            }
+            window.closeModal('changePasswordModal'); // Use window.closeModal
+            document.getElementById('currentPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmNewPassword').value = '';
+            checkPasswordStrength('', 'newPasswordStrengthBar', 'newPasswordStrengthText');
+        });
+
+        // Change Password Form Submission
+        document.getElementById('changePasswordForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!isAuthReady || !currentFirebaseUser) return;
+
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+
+            if (!currentPassword || !newPassword || !confirmNewPassword) {
+                showMessageBox('Please fill all password fields.');
+                return;
+            }
+            if (newPassword !== confirmNewPassword) {
+                showMessageBox('New passwords do not match.');
+                return;
+            }
+            if (newPassword === currentPassword) {
+                showMessageBox('New password cannot be the same as the current password.');
+                return;
+            }
+            if (checkPasswordStrength(newPassword, 'newPasswordStrengthBar', 'newPasswordStrengthText') < 5) {
+                showMessageBox('Please choose a stronger new password. It should be at least 8 characters long and include uppercase, lowercase, numbers and symbols.');
+                return;
+            }
+
+            showLoading();
+            try {
+                const credential = EmailAuthProvider.credential(currentFirebaseUser.email, currentPassword);
+                await reauthenticateWithCredential(currentFirebaseUser, credential);
+                await updatePassword(currentFirebaseUser, newPassword);
+                window.closeModal('changePasswordModal'); // Use window.closeModal
+                showMessageBox('Password updated successfully!');
+            } catch (error) {
+                console.error("Error changing password:", error);
+                showMessageBox(`Password change failed: ${error.message}`);
+            } finally {
+                hideLoading();
+            }
+        });
+
+        // New Password strength check on input
+        document.getElementById('newPassword').addEventListener('input', (e) => {
+            checkPasswordStrength(e.target.value, 'newPasswordStrengthBar', 'newPasswordStrengthText');
+        });
+
+
+        // Search System - Simulate Search
+        document.getElementById('performSearchButton').addEventListener('click', async () => {
+            if (!isAuthReady || !currentFirebaseUser) {
+                showMessageBox('Please login to search.');
+                return;
+            }
+            const keyword = document.getElementById('searchKeyword').value.toLowerCase();
+            const filterType = document.getElementById('searchFilterType').value;
+
+            if (keyword.trim() === '') {
+                showMessageBox('Please enter a keyword to search.');
+                return;
+            }
+
+            showLoading();
+            searchResultsContainer.innerHTML = ''; // Clear previous results
+            let resultsFound = false;
+
+            try {
+                // Search Posts
+                if (filterType === 'all' || filterType === 'story' || filterType === 'poem' || filterType === 'ghazal') {
+                    let postsQuery = collection(db, `artifacts/${appId}/public/data/posts`);
+                    let q = query(postsQuery);
+
+                    // Filter by type if not 'all'
+                    if (filterType !== 'all') {
+                        q = query(postsQuery, where("type", "==", filterType));
+                    }
+
+                    const querySnapshot = await getDocs(q);
+                    const filteredPosts = querySnapshot.docs.filter(doc => {
+                        const data = doc.data();
+                        return data.title.toLowerCase().includes(keyword) ||
+                               data.content.toLowerCase().includes(keyword) ||
+                               data.authorName.toLowerCase().includes(keyword) ||
+                               data.authorHandle.toLowerCase().includes(keyword);
+                    }).map(doc => ({ id: doc.id, ...doc.data() }));
+
+                    if (filteredPosts.length > 0) {
+                        resultsFound = true;
+                        filteredPosts.forEach(post => {
+                            const postCard = document.createElement('div');
+                            postCard.className = 'card bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-200 dark:bg-gray-700 dark:border-gray-600';
+                            postCard.innerHTML = `
+                                <div class="flex items-center mb-2">
+                                    <img src="${post.authorPic || 'https://placehold.co/100x100/A78BFA/ffffff?text=U'}" alt="User Avatar" class="w-10 h-10 rounded-full mr-3 object-cover">
+                                    <div>
+                                        <p class="font-semibold text-gray-800 dark:text-gray-200">${post.authorName}</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400">@${post.authorHandle} &bull; ${post.type}</p>
+                                    </div>
+                                </div>
+                                <h4 class="text-lg font-semibold mb-2 text-indigo-600 dark:text-indigo-400">${post.title}</h4>
+                                <p class="text-gray-700 text-sm dark:text-gray-300 line-clamp-3">${post.content}</p>
+                                <button class="text-indigo-600 text-sm mt-2 block hover:underline dark:text-indigo-400" onclick="window.showSection(feedSection); document.querySelector('[data-post-id=\'${post.id}\']').scrollIntoView({ behavior: 'smooth', block: 'start' });">Read More</button>
+                            `;
+                            searchResultsContainer.appendChild(postCard);
+                        });
+                    }
+                }
+
+                // Search Users
+                if (filterType === 'all' || filterType === 'user') {
+                    const usersQuery = collection(db, `artifacts/${appId}/users`);
+                    const usersSnap = await getDocs(usersQuery);
+                    const filteredUsers = usersSnap.docs.filter(doc => {
+                        const userData = doc.data();
+                        return doc.id !== currentFirebaseUser.uid && // Exclude current user
+                               (userData.username.toLowerCase().includes(keyword) || userData.handle.toLowerCase().includes(keyword));
+                    }).map(doc => ({ id: doc.id, ...doc.data() }));
+
+                    for (const user of filteredUsers) {
+                        const userCard = document.createElement('div');
+                        userCard.className = 'card bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-200 dark:bg-gray-700 dark:border-gray-600';
+
+                        // Check if current user is following this user
+                        const followingDocRef = doc(db, `artifacts/${appId}/users/${currentFirebaseUser.uid}/following`, user.id);
+                        const followingSnap = await getDoc(followingDocRef);
+                        const isFollowing = followingSnap.exists();
+
+                        userCard.innerHTML = `
+                            <div class="flex items-center">
+                                <img src="${user.profilePic || 'https://placehold.co/100x100/A78BFA/ffffff?text=U'}" alt="User Avatar" class="w-10 h-10 rounded-full mr-3 object-cover">
+                                <div>
+                                    <p class="font-semibold text-gray-800 dark:text-gray-200">${user.username}</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">@${user.handle} &bull; User</p>
+                                </div>
+                                <button class="ml-auto btn-primary px-4 py-2 text-sm follow-button" data-user-id="${user.id}" data-user-name="${user.username}" data-user-handle="${user.handle}" data-user-pic="${user.profilePic}">${isFollowing ? 'Unfollow' : 'Follow'}</button>
+                            </div>
+                        `;
+                        searchResultsContainer.appendChild(userCard);
+                        resultsFound = true;
+                    }
+                }
+
+                if (!resultsFound) {
+                    searchResultsContainer.innerHTML = '<p class="empty-state text-sm">No results found for your search.</p>';
+                }
+                attachPostEventListeners(); // Re-attach event listeners for follow buttons
+            } catch (error) {
+                console.error("Error during search:", error);
+                showMessageBox(`Search failed: ${error.message}`);
+            } finally {
+                hideLoading();
+            }
+        });
+
+
+        // Sidebar search button
+        document.getElementById('sidebarSearchButton').addEventListener('click', () => {
+            const sidebarSearchInput = document.getElementById('sidebarSearchInput');
+            document.getElementById('searchKeyword').value = sidebarSearchInput.value;
+            window.showSection(searchSection); // Use window.showSection
+            document.getElementById('performSearchButton').click(); // Trigger main search
+        });
+        document.getElementById('sidebarSearchInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                document.getElementById('sidebarSearchButton').click();
+            }
+        });
+
+
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            // Store preference in localStorage
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                themeToggle.querySelector('i').classList.replace('fa-moon', 'fa-sun');
+            } else {
+                localStorage.setItem('theme', 'light');
+                themeToggle.querySelector('i').classList.replace('fa-sun', 'fa-moon');
+            }
+        });
+
+        // Apply saved theme on load
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeToggle.querySelector('i').classList.replace('fa-moon', 'fa-sun');
+        }
+
+        // Close modals when clicking outside
+        window.addEventListener('click', (event) => {
+            if (event.target === authModal) {
+                window.closeModal('authModal');
+            }
+            if (event.target === confirmModal) {
+                window.closeModal('confirmModal');
+            }
+            if (event.target === editPostModal) {
+                window.closeModal('editPostModal');
+            }
+            if (event.target === changePasswordModal) {
+                window.closeModal('changePasswordModal');
+            }
+        });
+
+        // --- New Password Features Event Listeners ---
+        document.getElementById('registerPassword').addEventListener('input', (e) => {
+            checkPasswordStrength(e.target.value, 'passwordStrengthBar', 'passwordStrengthText');
+        });
+
+        document.getElementById('suggestPasswordButton').addEventListener('click', () => {
+            const suggestedPassword = generateStrongPassword();
+            document.getElementById('registerPassword').value = suggestedPassword;
+            document.getElementById('registerConfirmPassword').value = suggestedPassword;
+            checkPasswordStrength(suggestedPassword, 'passwordStrengthBar', 'passwordStrengthText');
+            showMessageBox('A strong password has been suggested. Please remember to save it securely!');
+        });
+
+        // Notification buttons
+        document.getElementById('markAllReadButton').addEventListener('click', markAllNotificationsAsRead);
+        document.getElementById('clearAllNotificationsButton').addEventListener('click', clearAllNotifications);
+
+        /**
+         * Fetches current user's profile data from Firestore.
+         * @param {string} uid - The Firebase User ID.
+         */
+        async function fetchUserData(uid) {
+            if (!db) return;
+            try {
+                const userDocRef = doc(db, `artifacts/${appId}/users/${uid}`);
+                const userDocSnap = await getDoc(userDocRef);
+                if (userDocSnap.exists()) {
+                    currentUserData = { id: userDocSnap.id, ...userDocSnap.data() };
+                } else {
+                    console.warn("User data not found in Firestore for UID:", uid);
+                    // Create a basic user profile if it doesn't exist (e.g., for anonymous sign-in)
+                    currentUserData = {
+                        username: currentFirebaseUser.displayName || 'Anonymous User',
+                        handle: currentFirebaseUser.displayName?.toLowerCase().replace(/\s/g, '') || 'anonymous',
+                        email: currentFirebaseUser.email || 'N/A',
+                        profilePic: currentFirebaseUser.photoURL || 'https://placehold.co/128x128/A78BFA/ffffff?text=U',
+                        bio: 'Hello!',
+                        location: 'Earth',
+                        createdAt: serverTimestamp()
+                    };
+                    await setDoc(userDocRef, currentUserData);
+                }
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+                currentUserData = null; // Reset if error
+            }
+        }
+
+        // --- Initial Firebase Setup ---
+        // This part attempts to sign in using the custom token provided by Canvas.
+        // If no token, it signs in anonymously.
+        async function initialAuthAndSetup() {
+            try {
+                app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+
+                const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                // --- Firebase Auth State Listener ---
+                // This listener must be set up *after* auth is initialized
+                onAuthStateChanged(auth, async (user) => {
+                    currentFirebaseUser = user;
+                    isAuthReady = true; // Auth state has been checked
+
+                    if (user) {
+                        userId = user.uid;
+                        console.log("User logged in:", user.uid);
+                        // Refresh user token to get latest emailVerified status
+                        await user.reload(); // Crucial to get the latest emailVerified status
+                        if (!user.emailVerified) {
+                             // If user is logged in but email is not verified, log them out.
+                             // This handles cases where they might have been signed in by custom token
+                             // but haven't verified their email yet.
+                             await signOut(auth);
+                             showMessageBox(
+                                'Your email is not verified. Please check your inbox for a verification link. ' +
+                                'You must verify your email to log in.',
+                                [
+                                    {
+                                        text: 'Resend Email',
+                                        className: 'btn-primary',
+                                        onClick: async () => {
+                                            showLoading();
+                                            try {
+                                                // Re-authenticate the user to get a fresh user object before sending email verification
+                                                // This is a workaround as sendEmailVerification might fail if the user object is stale.
+                                                // However, since we just signed them in or they were already signed in,
+                                                // the user object should be fresh enough. If issues persist, consider
+                                                // re-authenticating with credentials before sendEmailVerification.
+                                                await sendEmailVerification(user);
+                                                showMessageBox('Verification email resent! Please check your inbox.');
+                                            } catch (resendError) {
+                                                console.error("Error resending verification email:", resendError);
+                                                showMessageBox(`Failed to resend verification email: ${resendError.message}`);
+                                            } finally {
+                                                hideLoading();
+                                                showAuthModal('login'); // Keep login modal open
+                                            }
+                                        }
+                                    },
+                                    {
+                                        text: 'OK',
+                                        className: 'btn-secondary',
+                                        onClick: () => {
+                                            showAuthModal('login'); // Keep login modal open
+                                        }
+                                    }
+                                ]
+                            );
+                            return; // Stop further processing for unverified users
+                        }
+
+                        await fetchUserData(user.uid); // Fetch user's custom profile data
+                        updateLoginUI(); // Update UI for logged-in state
+                        renderProfile(); // Render profile based on fetched data
+                        fetchFollowingList(); // Start listening for following list
+                        renderNotifications(); // Start listening for notifications
+                        // Start listening for posts after user data is loaded
+                        onSnapshot(collection(db, `artifacts/${appId}/public/data/posts`), (snapshot) => {
+                            const posts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                            renderPosts(posts);
+                        }, (error) => {
+                            console.error("Error fetching posts:", error);
+                            feedContainer.innerHTML = `<p class="empty-state text-sm text-red-500">Error loading posts: ${error.message}</p>`;
+                        });
+                    } else {
+                        userId = null;
+                        currentUserData = null;
+                        console.log("User logged out or not authenticated.");
+                        updateLoginUI(); // Update UI for logged-out state
+                        renderProfile(); // Clear profile fields
+                        followingList.innerHTML = '<li class="empty-state text-sm">Login to see who you\'re following.</li>';
+                        notificationsList.innerHTML = '<li class="empty-state text-sm">Login to see your notifications.</li>';
+                        feedContainer.innerHTML = '<p class="empty-state text-sm">Please log in to see the feed.</p>';
+                    }
+                });
+
+            } catch (error) {
+                console.error("Firebase initialization or initial authentication failed:", error);
+                showMessageBox(`Failed to initialize application: ${error.message}. Please try again later.`);
+                isAuthReady = true; // Mark as ready even on error to prevent infinite loading
+                updateLoginUI(); // Ensure UI reflects logged out state
+            }
+        }
+
+        // Call initial authentication and setup on page load
+        initialAuthAndSetup();
+    </script>
+</body>
+</html>
