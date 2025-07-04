@@ -12,24 +12,24 @@
     <style>
         /* Custom Tailwind Configuration */
         :root {
-            --primary-color: #4F46E5; /* Indigo 600 - slightly darker for better contrast */
-            --secondary-color: #6366F1; /* Indigo 500 */
-            --accent-color: #EC4899; /* Pink 500 */
+            --primary-color: #10B981; /* Emerald 500 - vibrant green */
+            --secondary-color: #059669; /* Emerald 600 - slightly darker green */
+            --accent-color: #F59E0B; /* Amber 500 - warm orange */
 
             /* Light Mode Colors */
-            --text-color-light-mode: #1F2937; /* Gray 800 - for main text in light mode */
+            --text-color-light-mode: #374151; /* Gray 700 - for main text in light mode (improved contrast) */
             --bg-color-light-mode: #F9FAFB; /* Gray 50 - for main background in light mode */
             --card-bg-light-mode: #FFFFFF; /* White - for cards in light mode */
             --border-color-light-mode: #D1D5DB; /* Gray 300 - for borders in light mode */
-            --placeholder-color-light-mode: #374151; /* Gray 700 - for prompt text in light mode (effectively black) */
+            --placeholder-color-light-mode: #6B7280; /* Gray 500 - for prompt text in light mode (more visible) */
 
             /* Dark Mode Colors - Enhanced Visibility */
-            --text-color-dark-mode: #F3F4F6; /* Gray 100 - for main text in dark mode */
-            --bg-color-dark-mode: #121212; /* Very dark background for a stark theme */
-            --card-bg-dark-mode: #1E1E1E; /* Slightly lighter than main background for cards */
-            --input-bg-dark-mode: #2C2C2C; /* Darker input background for better contrast */
-            --border-color-dark-mode: #4A4A4A; /* Darker border for contrast */
-            --placeholder-color-dark-mode: #B0B0B0; /* Lighter placeholder for visibility */
+            --text-color-dark-mode: #E5E7EB; /* Gray 200 - for main text in dark mode */
+            --bg-color-dark-mode: #1F2937; /* Darker background for a deeper theme */
+            --card-bg-dark-mode: #374151; /* Slightly lighter than main background for cards */
+            --input-bg-dark-mode: #4B5563; /* Darker input background for better contrast */
+            --border-color-dark-mode: #6B7280; /* Darker border for contrast */
+            --placeholder-color-dark-mode: #9CA3AF; /* Gray 400 - Lighter placeholder for visibility */
         }
 
         body {
@@ -37,11 +37,16 @@
             background-color: var(--bg-color-light-mode);
             color: var(--text-color-light-mode);
             transition: background-color 0.3s, color 0.3s;
+            /* Subtle radial gradient for background depth */
+            background-image: radial-gradient(at 0% 0%, var(--bg-color-light-mode) 0%, rgba(243, 244, 246, 0.5) 100%);
+            background-size: 200% 200%; /* Make gradient larger to spread out */
+            background-position: top left;
         }
 
         .dark-mode body {
             background-color: var(--bg-color-dark-mode);
             color: var(--text-color-dark-mode);
+            background-image: radial-gradient(at 0% 0%, var(--bg-color-dark-mode) 0%, rgba(31, 41, 55, 0.5) 100%);
         }
 
         .dark-mode .card {
@@ -180,7 +185,7 @@
         .input-field:focus, .textarea-field:focus {
             outline: none;
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3); /* Slightly stronger focus shadow */
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3); /* Using primary color for focus shadow */
         }
 
         /* Rich Text Editor Styling */
@@ -326,6 +331,14 @@
             gap: 1rem;
             margin-top: 1rem;
         }
+        /* Make message box text more visible */
+        .message-box .message-content-wrapper p {
+            color: var(--primary-color); /* Use primary color for emphasis */
+            font-weight: 600; /* Make it semibold */
+        }
+        .dark-mode .message-box .message-content-wrapper p {
+            color: var(--primary-color); /* Ensure primary color is visible in dark mode too */
+        }
 
 
         /* Loading Spinner */
@@ -422,13 +435,13 @@
     <!-- Main Header -->
     <header class="bg-white shadow-sm py-4 px-6 sticky top-0 z-50 dark:bg-gray-800 dark:text-gray-100">
         <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">My Social App</h1>
+            <h1 class="text-2xl font-bold text-emerald-600 dark:text-emerald-400">My Social App</h1>
             <nav class="hidden md:flex space-x-6">
-                <a href="#" class="text-gray-700 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 nav-link" data-section="feedSection">Feed</a>
-                <a href="#" class="text-gray-700 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 nav-link" data-section="profileSection" id="profileNavLink">Profile</a>
-                <a href="#" class="text-gray-700 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 nav-link" data-section="createPostSection" id="createPostNavLink">Create Post</a>
-                <a href="#" class="text-gray-700 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 nav-link" data-section="notificationsSection" id="notificationsNavLink">Notifications</a>
-                <a href="#" class="text-gray-700 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 nav-link" data-section="searchSection" id="searchNavLink">Search</a>
+                <a href="#" class="text-gray-700 hover:text-emerald-600 dark:text-gray-300 dark:hover:text-emerald-400 nav-link" data-section="feedSection">Feed</a>
+                <a href="#" class="text-gray-700 hover:text-emerald-600 dark:text-gray-300 dark:hover:text-emerald-400 nav-link" data-section="profileSection" id="profileNavLink">Profile</a>
+                <a href="#" class="text-gray-700 hover:text-emerald-600 dark:text-gray-300 dark:hover:text-emerald-400 nav-link" data-section="createPostSection" id="createPostNavLink">Create Post</a>
+                <a href="#" class="text-gray-700 hover:text-emerald-600 dark:text-gray-300 dark:hover:text-emerald-400 nav-link" data-section="notificationsSection" id="notificationsNavLink">Notifications</a>
+                <a href="#" class="text-gray-700 hover:text-emerald-600 dark:text-gray-300 dark:hover:text-emerald-400 nav-link" data-section="searchSection" id="searchNavLink">Search</a>
             </nav>
             <div class="flex items-center space-x-4">
                 <button id="themeToggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
@@ -440,25 +453,31 @@
         </div>
     </header>
 
+    <!-- Firebase Debug Info -->
+    <div class="firebase-debug-info text-xs text-gray-400 dark:text-gray-600 absolute top-2 right-2 p-2 bg-white bg-opacity-80 rounded-bl-lg shadow-md z-50">
+        <p>Project ID: <span id="debugProjectId">Loading...</span></p>
+        <p>API Key: <span id="debugApiKey">Loading...</span></p>
+    </div>
+
     <!-- Mobile Navigation (hidden on desktop) -->
     <nav class="mobile-nav fixed bottom-0 left-0 w-full bg-white shadow-lg py-3 px-4 flex justify-around items-center md:hidden z-50 dark:bg-gray-800">
-        <a href="#" class="flex flex-col items-center text-gray-700 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 nav-link" data-section="feedSection">
+        <a href="#" class="flex flex-col items-center text-gray-700 hover:text-emerald-600 dark:text-gray-300 dark:hover:text-emerald-400 nav-link" data-section="feedSection">
             <i class="fas fa-home text-xl"></i>
             <span class="text-xs">Feed</span>
         </a>
-        <a href="#" class="flex flex-col items-center text-gray-700 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 nav-link" data-section="profileSection" id="profileNavLinkMobile">
+        <a href="#" class="flex flex-col items-center text-gray-700 hover:text-emerald-600 dark:text-gray-300 dark:hover:text-emerald-400 nav-link" data-section="profileSection" id="profileNavLinkMobile">
             <i class="fas fa-user text-xl"></i>
             <span class="text-xs">Profile</span>
         </a>
-        <a href="#" class="flex flex-col items-center text-gray-700 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 nav-link" data-section="createPostSection" id="createPostNavLinkMobile">
+        <a href="#" class="flex flex-col items-center text-gray-700 hover:text-emerald-600 dark:text-gray-300 dark:hover:text-emerald-400 nav-link" data-section="createPostSection" id="createPostNavLinkMobile">
             <i class="fas fa-plus-square text-xl"></i>
             <span class="text-xs">Post</span>
         </a>
-        <a href="#" class="flex flex-col items-center text-gray-700 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 nav-link" data-section="notificationsSection" id="notificationsNavLinkMobile">
+        <a href="#" class="flex flex-col items-center text-gray-700 hover:text-emerald-600 dark:text-gray-300 dark:hover:text-emerald-400 nav-link" data-section="notificationsSection" id="notificationsNavLinkMobile">
             <i class="fas fa-bell text-xl"></i>
             <span class="text-xs">Notify</span>
         </a>
-        <a href="#" class="flex flex-col items-center text-gray-700 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 nav-link" data-section="searchSection" id="searchNavLinkMobile">
+        <a href="#" class="flex flex-col items-center text-gray-700 hover:text-emerald-600 dark:text-gray-300 dark:hover:text-emerald-400 nav-link" data-section="searchSection" id="searchNavLinkMobile">
             <i class="fas fa-search text-xl"></i>
             <span class="text-xs">Search</span>
         </a>
@@ -470,9 +489,10 @@
         <!-- Left Sidebar (User Profile/Friends - hidden on mobile) -->
         <aside class="sidebar hidden md:block bg-white p-6 rounded-lg shadow-md dark:bg-gray-800 dark:text-gray-100">
             <div id="profileSummary" class="text-center">
-                <img id="sidebarProfilePic" src="https://placehold.co/100x100/A78BFA/ffffff?text=User" alt="Profile Picture" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-4 border-indigo-300 dark:border-indigo-600">
+                <img id="sidebarProfilePic" src="https://placehold.co/100x100/A78BFA/ffffff?text=User" alt="Profile Picture" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-4 border-emerald-300 dark:border-emerald-600">
                 <h3 id="sidebarUsername" class="text-xl font-semibold">John Doe</h3>
                 <p id="sidebarHandle" class="text-gray-500 dark:text-gray-400">@johndoe</p>
+                <p class="text-gray-500 dark:text-gray-400">User ID: <span id="sidebarUserId">Loading...</span></p>
                 <p id="sidebarBio" class="mt-2 text-sm">"Sharing my stories and thoughts with the world."</p>
                 <div class="flex justify-around mt-4 text-sm">
                     <div><span id="sidebarPostCount" class="font-bold">0</span> Posts</div>
@@ -496,7 +516,7 @@
 
             <!-- Create New Post Section -->
             <div id="createPostSection" class="card bg-white p-6 rounded-lg shadow-md hidden dark:bg-gray-800 dark:text-gray-100">
-                <h2 class="text-2xl font-bold mb-6 text-indigo-600 dark:text-indigo-400">Create New Post</h2>
+                <h2 class="text-2xl font-bold mb-6 text-emerald-600 dark:text-emerald-400">Create New Post</h2>
                 <div class="mb-4">
                     <label for="postTitle" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Title</label>
                     <input type="text" id="postTitle" class="input-field placeholder-gray-400 dark:placeholder-gray-500" placeholder="Enter post title (e.g., My Latest Short Story)">
@@ -532,9 +552,9 @@
 
             <!-- Profile Section -->
             <div id="profileSection" class="card bg-white p-6 rounded-lg shadow-md hidden dark:bg-gray-800 dark:text-gray-100">
-                <h2 class="text-2xl font-bold mb-6 text-indigo-600 dark:text-indigo-400">My Profile</h2>
+                <h2 class="text-2xl font-bold mb-6 text-emerald-600 dark:text-emerald-400">My Profile</h2>
                 <div class="flex flex-col items-center mb-6">
-                    <div class="relative w-32 h-32 rounded-full overflow-hidden mb-4 border-4 border-indigo-400 dark:border-indigo-600">
+                    <div class="relative w-32 h-32 rounded-full overflow-hidden mb-4 border-4 border-emerald-400 dark:border-emerald-600">
                         <img id="profilePicturePreview" src="https://placehold.co/128x128/A78BFA/ffffff?text=User" alt="Profile Picture" class="w-full h-full object-cover">
                         <label for="profilePictureUpload" class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white cursor-pointer opacity-0 hover:opacity-100 transition-opacity rounded-full">
                             <i class="fas fa-camera text-2xl"></i>
@@ -563,7 +583,7 @@
 
             <!-- Notifications Section -->
             <div id="notificationsSection" class="card bg-white p-6 rounded-lg shadow-md hidden dark:bg-gray-800 dark:text-gray-100">
-                <h2 class="text-2xl font-bold mb-6 text-indigo-600 dark:text-indigo-400">Notifications</h2>
+                <h2 class="text-2xl font-bold mb-6 text-emerald-600 dark:text-emerald-400">Notifications</h2>
                 <div class="flex justify-end space-x-2 mb-4">
                     <button id="markAllReadButton" class="btn-secondary px-4 py-2 text-sm">Mark All Read</button>
                     <button id="clearAllNotificationsButton" class="btn-secondary px-4 py-2 text-sm">Clear All</button>
@@ -576,7 +596,7 @@
 
             <!-- Search Section -->
             <div id="searchSection" class="card bg-white p-6 rounded-lg shadow-md hidden dark:bg-gray-800 dark:text-gray-100">
-                <h2 class="text-2xl font-bold mb-6 text-indigo-600 dark:text-indigo-400">Search</h2>
+                <h2 class="text-2xl font-bold mb-6 text-emerald-600 dark:text-emerald-400">Search</h2>
                 <div class="mb-4">
                     <label for="searchKeyword" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Keyword</label>
                     <input type="text" id="searchKeyword" class="input-field placeholder-gray-400 dark:placeholder-gray-500" placeholder="Search for posts or users...">
@@ -614,7 +634,7 @@
                 <h4 class="text-lg font-semibold mb-4">Search Posts</h4>
                 <div class="relative">
                     <input type="text" id="sidebarSearchInput" placeholder="Search..." class="input-field pr-10 placeholder-gray-400 dark:placeholder-gray-500">
-                    <button id="sidebarSearchButton" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400">
+                    <button id="sidebarSearchButton" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400">
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
@@ -623,8 +643,8 @@
             <div>
                 <h4 class="text-lg font-semibold mb-4">Categories / Tags</h4>
                 <div class="flex flex-wrap gap-2">
-                    <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-200">#ShortStories</span>
-                    <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-200">#Poetry</span>
+                    <span class="bg-emerald-100 text-emerald-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-emerald-900 dark:text-emerald-200">#ShortStories</span>
+                    <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-200">#Poetry</span>
                     <span class="bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-purple-900 dark:text-purple-200">#Ghazals</span>
                     <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-200">#Fiction</span>
                     <span class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-200">#Inspiration</span>
@@ -637,7 +657,7 @@
     <div id="authModal" class="modal">
         <div class="modal-content">
             <span class="close-button" onclick="window.closeModal('authModal')">&times;</span>
-            <h2 id="authModalTitle" class="text-2xl font-bold mb-6 text-indigo-600 dark:text-indigo-400">Login</h2>
+            <h2 id="authModalTitle" class="text-2xl font-bold mb-6 text-emerald-600 dark:text-emerald-400">Login</h2>
 
             <!-- Login Form -->
             <form id="loginForm" class="space-y-4">
@@ -648,20 +668,20 @@
                 <div class="relative">
                     <label for="loginPassword" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Password</label>
                     <input type="password" id="loginPassword" class="input-field pr-10" placeholder="********" required>
-                    <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 mt-2 text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400" onclick="togglePasswordVisibility('loginPassword')">
+                    <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 mt-2 text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400" id="toggleLoginPasswordButton">
                         <i class="fas fa-eye" id="toggleLoginPassword"></i>
                     </button>
                 </div>
                 <div class="flex items-center">
-                    <input type="checkbox" id="rememberMe" class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600">
+                    <input type="checkbox" id="rememberMe" class="h-4 w-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500 dark:bg-gray-700 dark:border-gray-600">
                     <label for="rememberMe" class="ml-2 block text-sm text-gray-900 dark:text-gray-300">Remember me</label>
                 </div>
                 <button type="submit" class="btn-primary w-full">Login</button>
                 <p class="text-center text-sm text-gray-500 dark:text-gray-400">
-                    Don't have an account? <a href="#" id="showRegister" class="text-indigo-600 hover:underline dark:text-indigo-400">Register</a>
+                    Don't have an account? <a href="#" id="showRegister" class="text-emerald-600 hover:underline dark:text-emerald-400">Register</a>
                 </p>
                 <p class="text-center text-sm text-gray-500 dark:text-gray-400">
-                    <a href="#" id="forgotPassword" class="text-indigo-600 hover:underline dark:text-indigo-400">Forgot Password?</a>
+                    <a href="#" id="forgotPassword" class="text-emerald-600 hover:underline dark:text-emerald-400">Forgot Password?</a>
                 </p>
             </form>
 
@@ -678,7 +698,7 @@
                 <div class="relative">
                     <label for="registerPassword" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Password</label>
                     <input type="password" id="registerPassword" class="input-field pr-10" placeholder="********" required>
-                    <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 mt-2 text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400" onclick="togglePasswordVisibility('registerPassword')">
+                    <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 mt-2 text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400" id="toggleRegisterPasswordButton">
                         <i class="fas fa-eye" id="toggleRegisterPassword"></i>
                     </button>
                     <div class="password-strength">
@@ -689,14 +709,14 @@
                 <div class="relative">
                     <label for="registerConfirmPassword" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Confirm Password</label>
                     <input type="password" id="registerConfirmPassword" class="input-field pr-10" placeholder="********" required>
-                    <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 mt-2 text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400" onclick="togglePasswordVisibility('registerConfirmPassword')">
+                    <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 mt-2 text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400" id="toggleRegisterConfirmPasswordButton">
                         <i class="fas fa-eye" id="toggleRegisterConfirmPassword"></i>
                     </button>
                 </div>
                 <button type="button" id="suggestPasswordButton" class="btn-secondary w-full">Suggest Strong Password</button>
                 <button type="submit" class="btn-primary w-full">Register</button>
                 <p class="text-center text-sm text-gray-500 dark:text-gray-400">
-                    Already have an account? <a href="#" id="showLogin" class="text-indigo-600 hover:underline dark:text-indigo-400">Login</a>
+                    Already have an account? <a href="#" id="showLogin" class="text-emerald-600 hover:underline dark:text-emerald-400">Login</a>
                 </p>
             </form>
 
@@ -708,7 +728,7 @@
                 </div>
                 <button type="submit" class="btn-primary w-full">Send Reset Link</button>
                 <p class="text-center text-sm text-gray-500 dark:text-gray-400">
-                    Remembered your password? <a href="#" id="showLoginFromReset" class="text-indigo-600 hover:underline dark:text-indigo-400">Login</a>
+                    Remembered your password? <a href="#" id="showLoginFromReset" class="text-emerald-600 hover:underline dark:text-emerald-400">Login</a>
                 </p>
             </form>
         </div>
@@ -731,7 +751,7 @@
     <div id="editPostModal" class="modal">
         <div class="modal-content">
             <span class="close-button" onclick="window.closeModal('editPostModal')">&times;</span>
-            <h2 class="text-2xl font-bold mb-6 text-indigo-600 dark:text-indigo-400">Edit Post</h2>
+            <h2 class="text-2xl font-bold mb-6 text-emerald-600 dark:text-emerald-400">Edit Post</h2>
             <input type="hidden" id="editPostId">
             <div class="mb-4">
                 <label for="editPostTitle" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Title</label>
@@ -771,19 +791,19 @@
     <div id="changePasswordModal" class="modal">
         <div class="modal-content">
             <span class="close-button" onclick="window.closeModal('changePasswordModal')">&times;</span>
-            <h2 class="text-2xl font-bold mb-6 text-indigo-600 dark:text-indigo-400">Change Password</h2>
+            <h2 class="text-2xl font-bold mb-6 text-emerald-600 dark:text-emerald-400">Change Password</h2>
             <form id="changePasswordForm" class="space-y-4">
                 <div class="relative">
                     <label for="currentPassword" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Current Password</label>
                     <input type="password" id="currentPassword" class="input-field pr-10" placeholder="********" required>
-                    <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 mt-2 text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400" onclick="togglePasswordVisibility('currentPassword')">
+                    <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 mt-2 text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400" id="toggleCurrentPasswordButton">
                         <i class="fas fa-eye" id="toggleCurrentPassword"></i>
                     </button>
                 </div>
                 <div class="relative">
                     <label for="newPassword" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">New Password</label>
                     <input type="password" id="newPassword" class="input-field pr-10" placeholder="********" required>
-                    <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 mt-2 text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400" onclick="togglePasswordVisibility('newPassword')">
+                    <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 mt-2 text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400" id="toggleNewPasswordButton">
                         <i class="fas fa-eye" id="toggleNewPassword"></i>
                     </button>
                     <div class="password-strength">
@@ -794,7 +814,7 @@
                 <div class="relative">
                     <label for="confirmNewPassword" class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Confirm New Password</label>
                     <input type="password" id="confirmNewPassword" class="input-field pr-10" placeholder="********" required>
-                    <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 mt-2 text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400" onclick="togglePasswordVisibility('confirmNewPassword')">
+                    <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 mt-2 text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400" id="toggleConfirmNewPasswordButton">
                         <i class="fas fa-eye" id="toggleConfirmNewPassword"></i>
                     </button>
                 </div>
@@ -820,11 +840,12 @@
 
     <script type="module">
         // Firebase SDK Imports
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-analytics.js";
         import {
             getAuth,
             signInAnonymously,
-            signInWithCustomToken,
+            signInWithCustomToken, // Still imported for potential future use or if user changes config back
             onAuthStateChanged,
             createUserWithEmailAndPassword,
             signInWithEmailAndPassword,
@@ -834,8 +855,8 @@
             reauthenticateWithCredential,
             EmailAuthProvider,
             updatePassword,
-            sendEmailVerification // Added for email verification
-        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+            sendEmailVerification
+        } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
         import {
             getFirestore,
             doc,
@@ -853,13 +874,24 @@
             arrayUnion,
             arrayRemove,
             writeBatch
-        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
-        // --- Firebase Initialization ---
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        // --- Firebase Configuration (from user's provided snippet) ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyCoQbUKYPDVHRahplR5Tv8QG92ly_Xmok8",
+            authDomain: "artshare-8a7d6.firebaseapp.com",
+            projectId: "artshare-8a7d6",
+            storageBucket: "artshare-8a7d6.firebasestorage.app",
+            messagingSenderId: "561915241070",
+            appId: "1:561915241070:web:3336c5f747195e7c9abc7f",
+            measurementId: "G-E0QJ3RT0RG"
+        };
+
+        // Derive canvasAppId from projectId for Firestore paths
+        const canvasAppId = firebaseConfig.projectId;
 
         let app;
+        let analytics; // Declare analytics variable
         let auth;
         let db;
         let currentFirebaseUser = null; // Firebase Auth user object
@@ -899,6 +931,8 @@
         const notificationsList = document.getElementById('notificationsList');
         const searchResultsContainer = document.getElementById('searchResults');
         const followingList = document.getElementById('followingList');
+        const sidebarUserId = document.getElementById('sidebarUserId');
+
 
         const allSections = [feedSection, createPostSection, profileSection, notificationsSection, searchSection];
 
@@ -1076,6 +1110,9 @@
                 if (toggleIcon) toggleIcon.classList.replace('fa-eye-slash', 'fa-eye');
             }
         }
+        // Make togglePasswordVisibility globally accessible
+        window.togglePasswordVisibility = togglePasswordVisibility;
+
 
         /**
          * Generates a strong random password.
@@ -1187,7 +1224,7 @@
                         </div>
                         ` : ''}
                     </div>
-                    <h3 class="text-xl font-bold mb-3 text-indigo-600 dark:text-indigo-400">${post.title}</h3>
+                    <h3 class="text-xl font-bold mb-3 text-emerald-600 dark:text-emerald-400">${post.title}</h3>
                     <div class="prose max-w-none text-gray-700 dark:text-gray-300 mb-4">${post.content}</div>
                     <div class="flex items-center justify-between text-gray-500 dark:text-gray-400">
                         <div class="flex space-x-4">
@@ -1251,7 +1288,7 @@
                     <div>
                         <p class="font-semibold text-sm">${comment.authorName} <span class="text-xs text-gray-500 font-normal dark:text-gray-400">${commentDate}</span></p>
                         <p class="text-gray-700 text-sm dark:text-gray-300">${comment.content}</p>
-                        <button class="text-xs text-indigo-600 hover:underline mt-1 dark:text-indigo-400">Reply</button>
+                        <button class="text-xs text-emerald-600 hover:underline mt-1 dark:text-emerald-400">Reply</button>
                     </div>
                 `;
                 commentsListDiv.appendChild(commentElement);
@@ -1270,7 +1307,7 @@
                     }
                     showLoading();
                     const postId = button.dataset.postId;
-                    const postRef = doc(db, `artifacts/${appId}/public/data/posts`, postId);
+                    const postRef = doc(db, `artifacts/${canvasAppId}/public/data/posts`, postId);
 
                     try {
                         const postSnap = await getDoc(postRef);
@@ -1324,7 +1361,7 @@
                     const commentInput = button.previousElementSibling;
                     const commentText = commentInput.value.trim();
                     const postId = button.closest('.comments-section').dataset.postId;
-                    const postRef = doc(db, `artifacts/${appId}/public/data/posts`, postId);
+                    const postRef = doc(db, `artifacts/${canvasAppId}/public/data/posts`, postId);
 
                     if (!commentText) {
                         showMessageBox('Please enter a comment.');
@@ -1381,7 +1418,7 @@
                         return;
                     }
 
-                    const followingRef = doc(db, `artifacts/${appId}/users/${currentFirebaseUser.uid}/following`, userIdToFollow);
+                    const followingRef = doc(db, `artifacts/${canvasAppId}/users/${currentFirebaseUser.uid}/following`, userIdToFollow);
 
                     try {
                         const followingSnap = await getDoc(followingRef);
@@ -1427,6 +1464,7 @@
                 document.getElementById('profileBio').value = '';
                 document.getElementById('profileEmail').value = '';
                 document.getElementById('profileLocation').value = '';
+                sidebarUserId.textContent = 'N/A';
 
                 document.getElementById('sidebarProfilePic').src = 'https://placehold.co/100x100/A78BFA/ffffff?text=User';
                 document.getElementById('sidebarUsername').textContent = 'Guest';
@@ -1444,14 +1482,15 @@
             document.getElementById('profileBio').value = currentUserData.bio || '';
             document.getElementById('profileEmail').value = currentFirebaseUser.email || '';
             document.getElementById('profileLocation').value = currentUserData.location || '';
+            sidebarUserId.textContent = userId || 'N/A'; // Display the userId
 
             // Fetch post count
-            const postsQuery = query(collection(db, `artifacts/${appId}/public/data/posts`), where("authorId", "==", currentFirebaseUser.uid));
+            const postsQuery = query(collection(db, `artifacts/${canvasAppId}/public/data/posts`), where("authorId", "==", currentFirebaseUser.uid));
             const postsSnap = await getDocs(postsQuery);
             document.getElementById('sidebarPostCount').textContent = postsSnap.size;
 
             // Fetch following count
-            const followingQuery = collection(db, `artifacts/${appId}/users/${currentFirebaseUser.uid}/following`);
+            const followingQuery = collection(db, `artifacts/${canvasAppId}/users/${currentFirebaseUser.uid}/following`);
             const followingSnap = await getDocs(followingQuery);
             document.getElementById('sidebarFollowingCount').textContent = followingSnap.size;
 
@@ -1470,7 +1509,7 @@
             }
 
             try {
-                const followingColRef = collection(db, `artifacts/${appId}/users/${currentFirebaseUser.uid}/following`);
+                const followingColRef = collection(db, `artifacts/${canvasAppId}/users/${currentFirebaseUser.uid}/following`);
                 const q = query(followingColRef);
 
                 onSnapshot(q, (snapshot) => {
@@ -1506,7 +1545,7 @@
                 li.innerHTML = `
                     <img src="${user.pic || 'https://placehold.co/40x40/A78BFA/ffffff?text=U'}" alt="${user.name}" class="w-10 h-10 rounded-full object-cover">
                     <span class="font-medium">${user.name}</span>
-                    <button class="ml-auto text-sm text-indigo-600 hover:underline dark:text-indigo-400 unfollow-sidebar-button" data-user-id="${user.id}" data-user-name="${user.name}">Unfollow</button>
+                    <button class="ml-auto text-sm text-emerald-600 hover:underline dark:text-emerald-400 unfollow-sidebar-button" data-user-id="${user.id}" data-user-name="${user.name}">Unfollow</button>
                 `;
                 followingList.appendChild(li);
             });
@@ -1518,7 +1557,7 @@
                     const userIdToUnfollow = button.dataset.userId;
                     const userNameToUnfollow = button.dataset.userName;
                     try {
-                        await deleteDoc(doc(db, `artifacts/${appId}/users/${currentFirebaseUser.uid}/following`, userIdToUnfollow));
+                        await deleteDoc(doc(db, `artifacts/${canvasAppId}/users/${currentFirebaseUser.uid}/following`, userIdToUnfollow));
                         showMessageBox(`Unfollowed ${userNameToUnfollow}.`);
                     } catch (error) {
                         console.error("Error unfollowing user:", error);
@@ -1539,7 +1578,7 @@
         async function addNotification(message, type, targetUserId) {
             if (!db || !targetUserId) return;
             try {
-                await addDoc(collection(db, `artifacts/${appId}/users/${targetUserId}/notifications`), {
+                await addDoc(collection(db, `artifacts/${canvasAppId}/users/${targetUserId}/notifications`), {
                     message: message,
                     type: type,
                     read: false,
@@ -1564,7 +1603,7 @@
             }
 
             try {
-                const notificationsColRef = collection(db, `artifacts/${appId}/users/${currentFirebaseUser.uid}/notifications`);
+                const notificationsColRef = collection(db, `artifacts/${canvasAppId}/users/${currentFirebaseUser.uid}/notifications`);
                 const q = query(notificationsColRef);
 
                 onSnapshot(q, (snapshot) => {
@@ -1617,7 +1656,7 @@
                         break;
                     case 'follow':
                         iconClass = 'fas fa-user-check';
-                        iconColor = 'text-indigo-500';
+                        iconColor = 'text-emerald-500';
                         break;
                     case 'request': // Assuming 'request' type might have accept/decline actions
                         iconClass = 'fas fa-user-plus';
@@ -1659,7 +1698,7 @@
             if (!isAuthReady || !currentFirebaseUser) return;
             showLoading();
             try {
-                const notificationsColRef = collection(db, `artifacts/${appId}/users/${currentFirebaseUser.uid}/notifications`);
+                const notificationsColRef = collection(db, `artifacts/${canvasAppId}/users/${currentFirebaseUser.uid}/notifications`);
                 const q = query(notificationsColRef, where("read", "==", false));
                 const unreadSnap = await getDocs(q);
 
@@ -1687,7 +1726,7 @@
 
             showLoading();
             try {
-                const notificationsColRef = collection(db, `artifacts/${appId}/users/${currentFirebaseUser.uid}/notifications`);
+                const notificationsColRef = collection(db, `artifacts/${canvasAppId}/users/${currentFirebaseUser.uid}/notifications`);
                 const q = query(notificationsColRef);
                 const allNotificationsSnap = await getDocs(q);
 
@@ -1719,7 +1758,7 @@
 
                     try {
                         // 1. Add sender to current user's following list
-                        await setDoc(doc(db, `artifacts/${appId}/users/${currentFirebaseUser.uid}/following`, senderId), {
+                        await setDoc(doc(db, `artifacts/${canvasAppId}/users/${currentFirebaseUser.uid}/following`, senderId), {
                             id: senderId,
                             name: senderName,
                             handle: senderName.toLowerCase().replace(/\s/g, ''), // Simple handle
@@ -1728,7 +1767,7 @@
                         });
 
                         // 2. Delete the notification
-                        await deleteDoc(doc(db, `artifacts/${appId}/users/${currentFirebaseUser.uid}/notifications`, notificationId));
+                        await deleteDoc(doc(db, `artifacts/${canvasAppId}/users/${currentFirebaseUser.uid}/notifications`, notificationId));
 
                         showMessageBox(`Friend request from ${senderName} accepted!`);
                         // Re-fetch following list to update sidebar
@@ -1748,7 +1787,7 @@
                     showLoading();
                     const notificationId = button.dataset.notificationId;
                     try {
-                        await deleteDoc(doc(db, `artifacts/${appId}/users/${currentFirebaseUser.uid}/notifications`, notificationId));
+                        await deleteDoc(doc(db, `artifacts/${canvasAppId}/users/${currentFirebaseUser.uid}/notifications`, notificationId));
                         showMessageBox('Friend request declined.');
                     } catch (error) {
                         console.error("Error declining friend request:", error);
@@ -1840,13 +1879,21 @@
                                 onClick: async () => {
                                     showLoading();
                                     try {
-                                        // Re-authenticate the user to get a fresh user object before sending email verification
-                                        // This is a workaround as sendEmailVerification might fail if the user object is stale.
-                                        // However, since we just signed them in or they were already signed in,
-                                        // the user object should be fresh enough. If issues persist, consider
-                                        // re-authenticating with credentials before sendEmailVerification.
-                                        await sendEmailVerification(user);
-                                        showMessageBox('Verification email resent! Please check your inbox.');
+                                        // Use the email from the login input field directly
+                                        const resendEmail = document.getElementById('loginEmail').value;
+                                        const tempPassword = document.getElementById('loginPassword').value;
+                                        if (resendEmail && tempPassword) {
+                                            // To resend verification, we need a user object associated with that email.
+                                            // The simplest way to get it is to sign in again (without waiting for verification).
+                                            // This temporary sign-in is just to get a user object for verification.
+                                            // It's crucial that we use the email from the form and the password to get a valid user object.
+                                            const tempUserCredential = await signInWithEmailAndPassword(auth, resendEmail, tempPassword);
+                                            await sendEmailVerification(tempUserCredential.user);
+                                            showMessageBox('Verification email resent! Please check your inbox.');
+                                        } else {
+                                            console.error("No email or password provided to send verification.");
+                                            showMessageBox('Failed to resend verification email: Please provide an email and password in the login form.');
+                                        }
                                     } catch (resendError) {
                                         console.error("Error resending verification email:", resendError);
                                         showMessageBox(`Failed to resend verification email: ${resendError.message}`);
@@ -1896,6 +1943,11 @@
                 showMessageBox('Passwords do not match.');
                 return;
             }
+            // Firebase requires at least 6 characters for password
+            if (password.length < 6) {
+                showMessageBox('Password must be at least 6 characters long.');
+                return;
+            }
             if (checkPasswordStrength(password, 'passwordStrengthBar', 'passwordStrengthText') < 5) {
                 showMessageBox('Please choose a stronger password. It should be at least 8 characters long and include uppercase, lowercase, numbers, and symbols.');
                 return;
@@ -1915,7 +1967,8 @@
                 // Send email verification
                 await sendEmailVerification(user);
 
-                await setDoc(doc(db, `artifacts/${appId}/users/${user.uid}`), {
+                // Create user profile document in Firestore
+                await setDoc(doc(db, `artifacts/${canvasAppId}/users/${user.uid}`), {
                     username: username,
                     handle: username.toLowerCase().replace(/\s/g, ''),
                     email: email,
@@ -1930,7 +1983,30 @@
                 });
             } catch (error) {
                 console.error("Registration error:", error);
-                showMessageBox(`Registration failed: ${error.message}`);
+                if (error.code === 'auth/email-already-in-use') {
+                    showMessageBox(
+                        'This email address is already registered. Please try logging in instead, or use a different email address.',
+                        [
+                            {
+                                text: 'Go to Login',
+                                className: 'btn-primary',
+                                onClick: () => showAuthModal('login')
+                            },
+                            {
+                                text: 'Use Different Email',
+                                className: 'btn-secondary',
+                                onClick: () => {
+                                    document.getElementById('registerEmail').value = '';
+                                    document.getElementById('registerPassword').value = '';
+                                    document.getElementById('registerConfirmPassword').value = '';
+                                    checkPasswordStrength('', 'passwordStrengthBar', 'passwordStrengthText');
+                                }
+                            }
+                        ]
+                    );
+                } else {
+                    showMessageBox(`Registration failed: ${error.message}`);
+                }
             } finally {
                 hideLoading();
             }
@@ -1995,7 +2071,7 @@
 
             showLoading();
             try {
-                await addDoc(collection(db, `artifacts/${appId}/public/data/posts`), {
+                await addDoc(collection(db, `artifacts/${canvasAppId}/public/data/posts`), {
                     authorId: currentFirebaseUser.uid,
                     authorName: currentUserData.username,
                     authorHandle: currentUserData.handle,
@@ -2030,7 +2106,7 @@
             }
             showLoading();
             try {
-                const postRef = doc(db, `artifacts/${appId}/public/data/posts`, postId);
+                const postRef = doc(db, `artifacts/${canvasAppId}/public/data/posts`, postId);
                 const postSnap = await getDoc(postRef);
 
                 if (postSnap.exists() && postSnap.data().authorId === currentFirebaseUser.uid) {
@@ -2067,7 +2143,7 @@
 
             showLoading();
             try {
-                const postRef = doc(db, `artifacts/${appId}/public/data/posts`, postId);
+                const postRef = doc(db, `artifacts/${canvasAppId}/public/data/posts`, postId);
                 await updateDoc(postRef, {
                     title: updatedTitle,
                     content: updatedContent,
@@ -2096,7 +2172,7 @@
 
             showLoading();
             try {
-                const postRef = doc(db, `artifacts/${appId}/public/data/posts`, postId);
+                const postRef = doc(db, `artifacts/${canvasAppId}/public/data/posts`, postId);
                 const postSnap = await getDoc(postRef);
 
                 if (postSnap.exists() && postSnap.data().authorId === currentFirebaseUser.uid) {
@@ -2125,7 +2201,7 @@
 
             showLoading();
             try {
-                const userDocRef = doc(db, `artifacts/${appId}/users/${currentFirebaseUser.uid}`);
+                const userDocRef = doc(db, `artifacts/${canvasAppId}/users/${currentFirebaseUser.uid}`);
                 const updateData = {
                     bio: bio,
                     location: location
@@ -2171,7 +2247,7 @@
                 showMessageBox('Please login to change your password.');
                 return;
             }
-            window.closeModal('changePasswordModal'); // Use window.closeModal
+            changePasswordModal.classList.add('show'); // Show the change password modal
             document.getElementById('currentPassword').value = '';
             document.getElementById('newPassword').value = '';
             document.getElementById('confirmNewPassword').value = '';
@@ -2246,7 +2322,7 @@
             try {
                 // Search Posts
                 if (filterType === 'all' || filterType === 'story' || filterType === 'poem' || filterType === 'ghazal') {
-                    let postsQuery = collection(db, `artifacts/${appId}/public/data/posts`);
+                    let postsQuery = collection(db, `artifacts/${canvasAppId}/public/data/posts`);
                     let q = query(postsQuery);
 
                     // Filter by type if not 'all'
@@ -2276,9 +2352,9 @@
                                         <p class="text-xs text-gray-500 dark:text-gray-400">@${post.authorHandle} &bull; ${post.type}</p>
                                     </div>
                                 </div>
-                                <h4 class="text-lg font-semibold mb-2 text-indigo-600 dark:text-indigo-400">${post.title}</h4>
+                                <h4 class="text-lg font-semibold mb-2 text-emerald-600 dark:text-emerald-400">${post.title}</h4>
                                 <p class="text-gray-700 text-sm dark:text-gray-300 line-clamp-3">${post.content}</p>
-                                <button class="text-indigo-600 text-sm mt-2 block hover:underline dark:text-indigo-400" onclick="window.showSection(feedSection); document.querySelector('[data-post-id=\'${post.id}\']').scrollIntoView({ behavior: 'smooth', block: 'start' });">Read More</button>
+                                <button class="text-emerald-600 text-sm mt-2 block hover:underline dark:text-emerald-400" onclick="window.showSection(feedSection); document.querySelector('[data-post-id=\'${post.id}\']').scrollIntoView({ behavior: 'smooth', block: 'start' });">Read More</button>
                             `;
                             searchResultsContainer.appendChild(postCard);
                         });
@@ -2287,7 +2363,7 @@
 
                 // Search Users
                 if (filterType === 'all' || filterType === 'user') {
-                    const usersQuery = collection(db, `artifacts/${appId}/users`);
+                    const usersQuery = collection(db, `artifacts/${canvasAppId}/users`);
                     const usersSnap = await getDocs(usersQuery);
                     const filteredUsers = usersSnap.docs.filter(doc => {
                         const userData = doc.data();
@@ -2300,7 +2376,7 @@
                         userCard.className = 'card bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-200 dark:bg-gray-700 dark:border-gray-600';
 
                         // Check if current user is following this user
-                        const followingDocRef = doc(db, `artifacts/${appId}/users/${currentFirebaseUser.uid}/following`, user.id);
+                        const followingDocRef = doc(db, `artifacts/${canvasAppId}/users/${currentFirebaseUser.uid}/following`, user.id);
                         const followingSnap = await getDoc(followingDocRef);
                         const isFollowing = followingSnap.exists();
 
@@ -2406,7 +2482,7 @@
         async function fetchUserData(uid) {
             if (!db) return;
             try {
-                const userDocRef = doc(db, `artifacts/${appId}/users/${uid}`);
+                const userDocRef = doc(db, `artifacts/${canvasAppId}/users/${uid}`);
                 const userDocSnap = await getDoc(userDocRef);
                 if (userDocSnap.exists()) {
                     currentUserData = { id: userDocSnap.id, ...userDocSnap.data() };
@@ -2422,7 +2498,11 @@
                         location: 'Earth',
                         createdAt: serverTimestamp()
                     };
-                    await setDoc(userDocRef, currentUserData);
+                    // Only attempt to set the document if currentFirebaseUser is not anonymous
+                    // Anonymous users don't need a Firestore profile unless explicitly designed.
+                    if (!currentFirebaseUser.isAnonymous) {
+                         await setDoc(userDocRef, currentUserData);
+                    }
                 }
             } catch (error) {
                 console.error("Error fetching user data:", error);
@@ -2436,15 +2516,24 @@
         async function initialAuthAndSetup() {
             try {
                 app = initializeApp(firebaseConfig);
+                analytics = getAnalytics(app); // Initialize analytics
                 auth = getAuth(app);
                 db = getFirestore(app);
 
-                const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-                if (initialAuthToken) {
-                    await signInWithCustomToken(auth, initialAuthToken);
-                } else {
-                    await signInAnonymously(auth);
+                // Populate debug info
+                const debugProjectIdElement = document.getElementById('debugProjectId');
+                const debugApiKeyElement = document.getElementById('debugApiKey');
+                if (debugProjectIdElement) {
+                    debugProjectIdElement.textContent = firebaseConfig.projectId;
                 }
+                if (debugApiKeyElement && firebaseConfig.apiKey) {
+                    const apiKey = firebaseConfig.apiKey;
+                    debugApiKeyElement.textContent = `******${apiKey.substring(apiKey.length - 4)}`;
+                }
+
+                // The app will now rely on the user to sign in via email/password or remain unauthenticated.
+                // The onAuthStateChanged listener will handle the initial state (logged out),
+                // and updateLoginUI() will show the login modal.
 
                 // --- Firebase Auth State Listener ---
                 // This listener must be set up *after* auth is initialized
@@ -2472,13 +2561,17 @@
                                         onClick: async () => {
                                             showLoading();
                                             try {
-                                                // Re-authenticate the user to get a fresh user object before sending email verification
-                                                // This is a workaround as sendEmailVerification might fail if the user object is stale.
-                                                // However, since we just signed them in or they were already signed in,
-                                                // the user object should be fresh enough. If issues persist, consider
-                                                // re-authenticating with credentials before sendEmailVerification.
-                                                await sendEmailVerification(user);
-                                                showMessageBox('Verification email resent! Please check your inbox.');
+                                                // Get the email from the login input field directly
+                                                const resendEmail = document.getElementById('loginEmail').value;
+                                                const tempPassword = document.getElementById('loginPassword').value;
+                                                if (resendEmail && tempPassword) {
+                                                    const tempUserCredential = await signInWithEmailAndPassword(auth, resendEmail, tempPassword);
+                                                    await sendEmailVerification(tempUserCredential.user);
+                                                    showMessageBox('Verification email resent! Please check your inbox.');
+                                                } else {
+                                                    console.error("No email or password provided to send verification.");
+                                                    showMessageBox('Failed to resend verification email: Please provide an email and password in the login form.');
+                                                }
                                             } catch (resendError) {
                                                 console.error("Error resending verification email:", resendError);
                                                 showMessageBox(`Failed to resend verification email: ${resendError.message}`);
@@ -2506,7 +2599,7 @@
                         fetchFollowingList(); // Start listening for following list
                         renderNotifications(); // Start listening for notifications
                         // Start listening for posts after user data is loaded
-                        onSnapshot(collection(db, `artifacts/${appId}/public/data/posts`), (snapshot) => {
+                        onSnapshot(collection(db, `artifacts/${canvasAppId}/public/data/posts`), (snapshot) => {
                             const posts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                             renderPosts(posts);
                         }, (error) => {
@@ -2535,6 +2628,25 @@
 
         // Call initial authentication and setup on page load
         initialAuthAndSetup();
+
+        // Attach event listeners for password visibility toggles after the DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleButtons = [
+                { id: 'toggleLoginPasswordButton', target: 'loginPassword' },
+                { id: 'toggleRegisterPasswordButton', target: 'registerPassword' },
+                { id: 'toggleRegisterConfirmPasswordButton', target: 'registerConfirmPassword' },
+                { id: 'toggleCurrentPasswordButton', target: 'currentPassword' },
+                { id: 'toggleNewPasswordButton', target: 'newPassword' },
+                { id: 'toggleConfirmNewPasswordButton', target: 'confirmNewPassword' }
+            ];
+
+            toggleButtons.forEach(btn => {
+                const buttonElement = document.getElementById(btn.id);
+                if (buttonElement) {
+                    buttonElement.addEventListener('click', () => window.togglePasswordVisibility(btn.target));
+                }
+            });
+        });
     </script>
 </body>
 </html>
